@@ -1,19 +1,12 @@
 <!-- markdownlint-disable MD030 -->
 
-# Flowise Components
+# Agentic Protocol Components
 
-English | [中文](./README-ZH.md)
+English 
 
-Apps integration for Flowise. Contain Nodes and Credentials.
+Apps integration for Agentic Protocol. Contain Nodes and Credentials.
 
-![Flowise](https://github.com/FlowiseAI/Flowise/blob/main/images/flowise.gif?raw=true)
-
-Install:
-
-```bash
-npm i flowise-components
-```
 
 ## License
 
-Source code in this repository is made available under the [Apache License Version 2.0](https://github.com/FlowiseAI/Flowise/blob/master/LICENSE.md).
+Source code in this repository is made available under the [Apache License Version 2.0](https://github.com/likaho/AgenticProtocol/blob/master/LICENSE.md).
