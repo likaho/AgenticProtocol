@@ -8,7 +8,7 @@
 
   
 
-### There are five main directories in your project:
+### There are five main directories in this repo:
 
   
 
@@ -41,13 +41,13 @@ git clone https://github.com/likaho/AgenticProtocol.git
 
   
 
-2. Go into repository folder
+2. Go into individual repository folder, for example core/packages/ui
 
   
 
 ```bash
 
-cd AgenticProtocol
+cd core/packages/ui
 
 ```
 
@@ -89,7 +89,7 @@ pnpm start
 
   
 
-You can now access the app on [http://localhost:3000](http://localhost:3000)
+You can now access the app on [http://localhost:8080](http://localhost:8080)
 
   
 
