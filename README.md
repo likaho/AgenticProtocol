@@ -6,9 +6,10 @@
 
 
 # Agentic Protocol 
-***An open platform for the new AI economy***
+Welcome to Agentic Protocol - An open platform for the new AI economy.  It is a Decentralized Agentic Protocol No-Code Building Tool & Marketplace.
 
-**Decentralized Agentic Protocol No-Code Building Tool & Marketplace:**
+## Overview
+
 - This innovative platform empowers creators and developers to build and own their AI agents.
 - Creators mint non-fungible tokens (NFTs) to establish ownership of their agents, providing verifiable proof of authenticity.
 - By accepting token payments via an ERC20 contract, creators can monetize their agents directly.
