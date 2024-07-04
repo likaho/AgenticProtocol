@@ -30,13 +30,13 @@ The combination of FileCoin, NFTs, and zkML creates a powerful ecosystem for AI 
 
 1.  **chat-ui**: This folder is dedicated to the chat web client.
 
-2.  **contracts**: Here, you'll find all the NFT (AGENTL) and ERC20 (AGEN) contracts.
+2.  **chat-backend**: This folder contains an Express web service that handles chat services. It forwards prompts to the Galadriel network.
 
-3.  **core**: The core folder includes both client and server-side projects. It provides a no-code agent building tool and serves as the marketplace.
+3.  **contracts**: Here, you'll find all the NFT (AGENTL) and ERC20 (AGEN) contracts.
 
-4.  **function_calling_llm**: In this folder, you'll find Python scripts responsible for function calling. They act as a proxy, deciding which tool or agent to call or redirecting calls to the Galadriel network.
+4.  **core**: The core folder includes both client and server-side projects. It provides a no-code agent building tool and serves as the marketplace.
 
-5.  **galadriel**: This folder contains an Express web service that handles chat services. It forwards prompts to the Galadriel network.
+5.  **function_calling_llm**: In this folder, you'll find Python scripts responsible for function calling. They act as a proxy, deciding which tool or agent to call or redirecting calls to the Galadriel network.
 
   
   
