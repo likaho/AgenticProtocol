@@ -10,7 +10,7 @@ import os
 import importlib
 
 
-def create_function_docs(output_dir: str)->list:
+def create_function_docs_and_import_statements(output_dir: str)->(list, list):
     """
     Collects function documentation from files within a directory and its subdirectories.
 
@@ -20,25 +20,26 @@ def create_function_docs(output_dir: str)->list:
     Returns:
         list: A list of function documentation strings.
     """
-
+    print("Creating function docs")
     function_docs = []
+    import_statements = []
     directory = f"{output_dir}/services"
     file_names = os.listdir(directory)
     for file_name in file_names:
         if file_name != "__init__.py":   
-            # print(f"{directory}/{file_name}")
             function_names = get_function_names_from_file(f"{directory}/{file_name}")
             for function_name in function_names:
                 module_name = f"{output_dir}.services.{file_name[:file_name.rfind(".")]}"
                 import_statement = (f"from {module_name} import {function_name}")
-                exec(import_statement)
+                import_statements.append(import_statement)
+                # exec(import_statement)
                 module = importlib.import_module(module_name)
                 if module:
                     function = getattr(module, function_name)
                     function_doc = create_function_doc(function)
                     function_docs.append(function_doc)
 
-    return function_docs
+    return function_docs, import_statements
 
 
 def generate_hash(data):
