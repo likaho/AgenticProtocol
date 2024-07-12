@@ -1,5 +1,5 @@
 import inspect
-from transformers import pipeline
+# from transformers import pipeline
 
 # Specify the LLM Endpoint
 # Now, let's prompt Raven!
