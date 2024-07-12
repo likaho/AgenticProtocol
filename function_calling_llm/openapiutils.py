@@ -8,9 +8,50 @@ import hashlib
 import re
 import os
 import importlib
+import chromadb
+import shutil
+import subprocess
+from utils import query_raven
 
+def generate_open_api_services(openapi_url: str, service_url: str, output_dir: str):
+    download_openapi_spec(openapi_url, service_url, output_dir)
+    # Construct the command using string formatting
+    command = f"openapi-python-generator {output_dir}//openapi.json {output_dir}/"  # !openapi-python-generator openapi.json ./api_specification_main/
+    subprocess.run(command.split(), check=True)
 
-def create_function_docs_and_import_statements(output_dir: str)->(list, list):
+def remove_openapi_files(output_dir: str):
+    if os.path.exists(output_dir):
+        shutil.rmtree(output_dir)
+
+def get_function_details(user_query: str):
+    chroma_client = chromadb.PersistentClient(path="agentprotocol/vectordb")
+    collection = chroma_client.get_collection(name="tools")
+    results = collection.query(
+                query_texts=[user_query], 
+                n_results=1, # how many results to return
+                include=["documents", "metadatas"])
+    return results
+
+def create_function_call(user_query: str, documents: list) -> str:
+    prompt = f'''
+    Function:
+    no_op():
+    """
+    Default OOD
+    """
+    '''
+    results = get_function_details(user_query)
+
+    for items in results["documents"]:
+      for item in items:
+          prompt += str(item) + "\n"
+
+    prompt = prompt + f'''User Query: {user_query}<human_end>'''
+
+    call = query_raven(prompt)
+    return call
+
+def create_function_names_docs_import_statements(output_dir: str)->(list,list, list):
     """
     Collects function documentation from files within a directory and its subdirectories.
 
@@ -39,7 +80,7 @@ def create_function_docs_and_import_statements(output_dir: str)->(list, list):
                     function_doc = create_function_doc(function)
                     function_docs.append(function_doc)
 
-    return function_docs, import_statements
+    return function_names, function_docs, import_statements
 
 
 def generate_hash(data):
@@ -116,7 +157,7 @@ def get_function_names_from_file(filename):
     find_functions(tree)
     return function_names
 
-def download_openapi_spec(openapi_url, service_url):
+def download_openapi_spec(openapi_url, service_url, output_dir):
   """
   Downloads an OpenAPI spec from the given URL, performs modifications, and saves as JSON.
 
@@ -129,16 +170,18 @@ def download_openapi_spec(openapi_url, service_url):
       ValueError: If the OpenAPI URL is not provided.
       IOError: If there's an error downloading or saving the file.
   """
-  output_json_file="openapi.json"
+  if not os.path.exists(output_dir):
+    os.mkdir(output_dir)
+  output_json_file = output_dir + "\\openapi.json"
   if not openapi_url:
       raise ValueError("Please provide a valid OpenAPI URL")
 
   try:
       # Download the OpenAPI spec
-      urlretrieve(openapi_url, "openapi.yml")
+      urlretrieve(openapi_url, output_dir + "\\openapi.yml")
 
       # Read the content of the file
-      with open("openapi.yml", "r") as file:
+      with open(output_dir + "\\openapi.yml", "r") as file:
           file_content = file.read()
 
       # Modify content (replace int and float types with number)
