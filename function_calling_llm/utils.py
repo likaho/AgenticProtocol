@@ -1,9 +1,12 @@
 import inspect
+import os
+from dotenv import load_dotenv
 # from transformers import pipeline
 
 # Specify the LLM Endpoint
 # Now, let's prompt Raven!
-API_URL = "http://nexusraven.nexusflow.ai"
+load_dotenv()
+API_URL = os.getenv("FUNCTION_CALLING_URL")
 headers = {
         "Content-Type": "application/json"
 }

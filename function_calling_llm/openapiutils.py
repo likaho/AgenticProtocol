@@ -40,9 +40,8 @@ def create_function_call(user_query: str, documents: list) -> str:
     Default OOD
     """
     '''
-    results = get_function_details(user_query)
-
-    for items in results["documents"]:
+    
+    for items in documents:
       for item in items:
           prompt += str(item) + "\n"
 

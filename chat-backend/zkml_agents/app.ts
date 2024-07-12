@@ -15,11 +15,6 @@ app.use(cors({ origin: '*' }));
 
 // Configure body-parser to handle JSON bodies
 app.use(bodyParser.json());
-
-// app.get('/', (req: Request, res: Response) => {
-//   res.send('Hello from Express & TypeScript!');
-// });
-
 app.post('/*', async (req: Request<MessageRequest>, res: Response) => {
      const response = await handleRequest(req.body);
      res.send(response);
