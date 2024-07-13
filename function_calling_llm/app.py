@@ -3,11 +3,54 @@ from openapiutils import  get_function_details, create_function_call, generate_o
 import requests
 import os
 from dotenv import load_dotenv
+import chromadb
 
 load_dotenv()
 
 app = Flask(__name__)
 
+@app.route('/createAgent', methods=['POST'])
+def createAgent():
+  if not request.is_json:
+     return jsonify({'error': 'Request body must be JSON'}), 400
+  else:
+    name = request.json['name'].trim()
+    description = request.json['description']  #e.g. Fetches weather data from the Open-Meteo API for the given latitude and longitude.
+    query_type = request.json['query_type'] #e.g. str
+    query_description = request.json['query_description'] #e.g. The name of the city.
+    return_type = request.json['return_type'] #e.g. str
+    return_description = request.json['return_description'] #e.g. The weather forecast.
+    marketplace_id = request.json['marketplace_id']
+
+    chroma_client = chromadb.PersistentClient(path="agenticprotocol/vectordb")
+    function_name = f"def {name}(query):"
+    function_doc = \
+    f'''
+    Function:
+    {function_name}
+        """
+        {description}
+
+        Args:
+        query ({query_type}): {query_description}
+
+        Returns:
+        {return_type}: {return_description}
+        """
+    '''
+    doc_id = str(generate_hash(function_doc))
+    doc_metadata = {"function_name": function_name, "marketplace_id": marketplace_id, "type": "agent"}
+
+    collection = chroma_client.get_or_create_collection(name="marketplace")
+    collection.add(
+        documents=[function_doc],
+        metadatas=[doc_metadata],
+        ids=[doc_id]
+    )
+
+    return jsonify({'Success': 'Agent has been created'}), 200
+   
+   
 @app.route('/usetool', methods=['POST'])
 def useTool():
   if not request.is_json:

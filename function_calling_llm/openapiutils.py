@@ -24,8 +24,8 @@ def remove_openapi_files(output_dir: str):
         shutil.rmtree(output_dir)
 
 def get_function_details(user_query: str):
-    chroma_client = chromadb.PersistentClient(path="agentprotocol/vectordb")
-    collection = chroma_client.get_collection(name="tools")
+    chroma_client = chromadb.PersistentClient(path="agenticprotocol/vectordb")
+    collection = chroma_client.get_collection(name="marketplace")
     results = collection.query(
                 query_texts=[user_query], 
                 n_results=1, # how many results to return

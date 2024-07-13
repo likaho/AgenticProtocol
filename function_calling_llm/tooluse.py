@@ -2,7 +2,7 @@ import chromadb
 from utils import query_raven
 from api_specification_main.services.WeatherForecastAPIs_service import get_v1forecast
 
-chroma_client = chromadb.PersistentClient(path="agentprotocol/vectordb")
+chroma_client = chromadb.PersistentClient(path="agenticprotocol/vectordb")
 
 des1 = f'''
 """
@@ -29,7 +29,7 @@ def give_joke(category : str):
 ''' + des2
 
 
-collection = chroma_client.get_or_create_collection(name="tools")
+collection = chroma_client.get_or_create_collection(name="marketplace")
 collection.add(
     documents=[doc1, doc2],
     metadatas=[{"description": des1, "type": "native"}, {"description": des2, "type": "native"}],
