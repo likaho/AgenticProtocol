@@ -26,9 +26,10 @@ def remove_openapi_files(output_dir: str):
 def get_function_details(user_query: str):
     chroma_client = chromadb.PersistentClient(path="agenticprotocol/vectordb")
     collection = chroma_client.get_collection(name="marketplace")
+    num_of_results = os.getenv("NUM_OF_RESULTS")
     results = collection.query(
                 query_texts=[user_query], 
-                n_results=1, # how many results to return
+                n_results=int(num_of_results), # how many results to return
                 include=["documents", "metadatas"])
     return results
 

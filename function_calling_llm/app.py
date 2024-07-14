@@ -9,12 +9,19 @@ load_dotenv()
 
 app = Flask(__name__)
 
-@app.route('/createAgent', methods=['POST'])
-def createAgent():
+def delete_agent_or_chatflow(type: str, doc_id: str):
+  chroma_client = chromadb.PersistentClient(path="agenticprotocol/vectordb")
+  collection = chroma_client.get_or_create_collection(name="marketplace")
+  collection.delete(ids=[str(doc_id)])
+  return jsonify({'doc_id': doc_id,'Success': f'{type} has been deleted'}), 204
+  # else:
+  #   return jsonify({'doc_id': doc_id,'Error': f'{type} not found'}), 404
+
+def create_agent_or_chatflow(type: str):
   if not request.is_json:
      return jsonify({'error': 'Request body must be JSON'}), 400
   else:
-    name = request.json['name'].trim()
+    name = request.json['name'].strip()
     description = request.json['description']  #e.g. Fetches weather data from the Open-Meteo API for the given latitude and longitude.
     query_type = request.json['query_type'] #e.g. str
     query_description = request.json['query_description'] #e.g. The name of the city.
@@ -39,7 +46,7 @@ def createAgent():
         """
     '''
     doc_id = str(generate_hash(function_doc))
-    doc_metadata = {"function_name": function_name, "marketplace_id": marketplace_id, "type": "agent"}
+    doc_metadata = {"function_name": function_name, "marketplace_id": marketplace_id, "doc_id": doc_id, "type": type}
 
     collection = chroma_client.get_or_create_collection(name="marketplace")
     collection.add(
@@ -48,11 +55,37 @@ def createAgent():
         ids=[doc_id]
     )
 
-    return jsonify({'Success': 'Agent has been created'}), 200
+    return jsonify({'doc_id': doc_id,'Success': f'{type} has been created'}), 200
+
+@app.route('/api/v1/agent', methods=['POST'])
+def create_agent():
+  return create_agent_or_chatflow("agent")
    
-   
-@app.route('/usetool', methods=['POST'])
-def useTool():
+@app.route('/api/v1/chatflow', methods=['POST'])
+def create_chatflow():
+  return create_agent_or_chatflow("chatflow")
+
+@app.route('/api/v1/agent/<doc_id>', methods=['DELETE'])
+def delete_agent(doc_id: str):
+  return delete_agent_or_chatflow("agent", doc_id)
+
+@app.route('/api/v1/chatflow/<doc_id>', methods=['DELETE'])
+def delete_chatflow(doc_id: str):
+  return delete_agent_or_chatflow("chatflow", doc_id)
+
+def chat_completion(user_query: str, chatId: str):
+  # Forward a user query to a LLM  to Galadriel network
+  json_body = {"question":user_query, "chatId": chatId }
+  llm_url = os.getenv("GALADRIEL_URL")
+  response = requests.post(llm_url, json = json_body)
+  return jsonify(response)
+  # if(response.status_code == 200):
+  #   return response.text
+  # else:
+  #    return response.status_code
+
+@app.route('/api/v1/useService', methods=['POST'])
+def useService():
   if not request.is_json:
      return jsonify({'error': 'Request body must be JSON'}), 400
   
@@ -61,32 +94,34 @@ def useTool():
   function_details = get_function_details(user_query)
   function_call = create_function_call(user_query, function_details["documents"])
   if "no_op" in function_call:
-      # Forward a user query to a LLM  to Galadriel network
-      json_body = {"question":user_query, "chatId": chatId }
-      llm_url = os.getenv("GALADRIEL_URL")
-      response = requests.post(llm_url, json = json_body)
-      if(response.status_code == 200):
-        return response.text
-      else:
-         return response.status_code
+      print(function_call)
+      response = chat_completion(user_query, chatId)
+      return response
   else :
       # check if the parameters are valid
-      # call the function
-      openapi_url = function_details["metadatas"][0][0]["openapi_uri"]
-      service_url = function_details["metadatas"][0][0]["end_point"]
-      import_statement = function_details["metadatas"][0][0]["import_statement"]
+      marketplace_id = function_details["metadatas"][0][0]["marketplace_id"]
+      marketplace_url = f"{os.getenv("MARKETPLACE_URL")}/{marketplace_id}/"
 
-      output_dir = generate_hash(clean_url(openapi_url))
-      generate_open_api_services(openapi_url, service_url, output_dir)
+      json_body = {"question":user_query, "chatId": chatId }
+      print(json_body)
+      response = requests.post(marketplace_url, json = json_body)
 
-      exec(import_statement)
-      result = eval(function_call)
+      # # call the function
+      # openapi_url = function_details["metadatas"][0][0]["openapi_uri"]
+      # service_url = function_details["metadatas"][0][0]["end_point"]
+      # import_statement = function_details["metadatas"][0][0]["import_statement"]
 
-      from threading import Thread
-      # Create a thread object with the worker function and data
-      thread = Thread(target=remove_openapi_files, args=(output_dir,))
-      thread.start()  
-      return jsonify(result)
+      # output_dir = generate_hash(clean_url(openapi_url))
+      # generate_open_api_services(openapi_url, service_url, output_dir)
+
+      # exec(import_statement)
+      # result = eval(function_call)
+
+      # from threading import Thread
+      # # Create a thread object with the worker function and data
+      # thread = Thread(target=remove_openapi_files, args=(output_dir,))
+      # thread.start()  
+      # return jsonify(result)
 
 
      
