@@ -17,6 +17,7 @@ const createTool = async (requestBody: any): Promise<any> => {
         if(dbResponse.account !== undefined) {
             const owner_id = dbResponse.account;
             const tool_id = dbResponse.id;
+            const tool_gas = 100;
 
             const fileCoinJson = { "toolName": dbResponse.name, "toolId": dbResponse.id, "toolSchema": dbResponse.schema, "toolFunc": dbResponse.func, "toolAccount": dbResponse.account, "toolIcon": dbResponse.iconSrc, "toolDescription": dbResponse.description };
             const jsonString = JSON.stringify(fileCoinJson);
@@ -24,7 +25,7 @@ const createTool = async (requestBody: any): Promise<any> => {
             try {
                 const cid = await publishToFileCoin(tool_id, jsonString)
     
-                await mintNFT(owner_id, tool_id, cid);                
+                await mintNFT(owner_id, tool_id, cid, tool_gas);                
                 await transferERC20(owner_id, 1000000000000);
             }
             catch (error) {

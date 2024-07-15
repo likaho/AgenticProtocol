@@ -200,7 +200,7 @@ export const Canvas = () => {
         }
     }
 
-    const handlePublishFlow = async (chatflowDescription, chatflowOwnerAddress) => {
+    const handlePublishFlow = async (chatflowDescription, chatflowOwnerAddress, chatflowGas) => {
         if (reactFlowInstance) {
             const nodes = reactFlowInstance.getNodes().map((node) => {
                 const nodeData = cloneDeep(node.data)
@@ -223,6 +223,7 @@ export const Canvas = () => {
                 const updateBody = {
                     description: chatflowDescription,
                     ownerAddress: chatflowOwnerAddress,
+                    gas: chatflowGas,
                     flowData
                 }
                 console.log(updateBody)

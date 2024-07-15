@@ -185,8 +185,8 @@ const CanvasHeader = ({ chatflow, isAgentCanvas, handleSaveFlow, handlePublishFl
         handleSaveFlow(flowName)
     }
 
-    const onConfirmPublishNFT = async (chatflowDescription, chatflowOwnerAddress) => {   
-        const response = await handlePublishFlow(chatflowDescription, chatflowOwnerAddress)
+    const onConfirmPublishNFT = async (chatflowDescription, chatflowOwnerAddress, chatflowGas) => {   
+        const response = await handlePublishFlow(chatflowDescription, chatflowOwnerAddress, chatflowGas)
         console.log(response)
         setPublishDialogOpen(false);
     }

@@ -12,6 +12,7 @@ contract AgentNFT is ERC721 {
     struct Identifier {
         string agent_id;  // Agent ID
         string dataCID;     // IPFS CID (Content Identifier) for NFT data
+        uint256 gas;
     }
 
     // Mapping to store Identifiers
@@ -36,9 +37,14 @@ contract AgentNFT is ERC721 {
         string memory cid = identifiers[uint256(keccak256(abi.encode(_agent_id)))].dataCID;
         return string(abi.encodePacked(baseURI, cid));
     }
-    
+
+    function getGas(string memory _agent_id) external view returns(uint256) {
+        uint256 gas = identifiers[uint256(keccak256(abi.encode(_agent_id)))].gas;
+        return gas;
+    }
+
     // Mint function to create a new token and associate it with an Identifier
-    function mint(address owner, string memory _agent_id, string memory _dataCID) external {
+    function mint(address owner, string memory _agent_id, string memory _dataCID, uint256 _gas) external {
         // Calculate the tokenId based on the dataCID
         require(bytes(_agent_id).length > 0, "Tool id cannot be an empty string.");
         require(bytes(_dataCID).length > 0, "dataCID cannot be an empty string.");
@@ -50,7 +56,7 @@ contract AgentNFT is ERC721 {
         // Mint the token and associate it with the sender's address
         _mint(owner, tokenId);
         // Store the Identifier in the mapping
-        identifiers[tokenId] = Identifier(_agent_id, _dataCID);
+        identifiers[tokenId] = Identifier(_agent_id, _dataCID, _gas);
         emit Minted(tokenId);
     }
 

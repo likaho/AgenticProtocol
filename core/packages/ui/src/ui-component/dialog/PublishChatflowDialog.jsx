@@ -10,13 +10,14 @@ const PublishChatflowDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
     const portalElement = document.getElementById('portal')
 
     const [chatflowDescription, setChatflowDescription] = useState('')
+    const [chatflowGas, setChatflowGas] = useState()
     const [chatflowOwnerAddress, setChatflowAccount] = useState('')
     const [isReadyToSave, setIsReadyToSave] = useState(false)
 
     useEffect(() => {
-        if (chatflowDescription) setIsReadyToSave(true)
+        if (chatflowDescription && chatflowOwnerAddress && chatflowGas) setIsReadyToSave(true)
         else setIsReadyToSave(false)
-    }, [chatflowDescription])
+    }, [chatflowDescription, chatflowOwnerAddress, chatflowGas])
 
     const handleConnectToMetaMask = async () => {
         const accountAddress = await connectToMetaMask()
@@ -68,33 +69,53 @@ const PublishChatflowDialog = ({ show, dialogProps, onCancel, onConfirm }) => {
             </Box>
             <Box><br/></Box>
             <Box>
-            <Stack sx={{ position: 'relative', alignItems: 'center' }} direction='row'>
-            <Typography variant='overline'>
-                    Description
-                    <span style={{ color: 'red' }}>&nbsp;*</span>
-                </Typography>
-                <TooltipWithParser
-                    title={'Your citrea account address to receive token and NFT when tool is created or used by others.'}
-                />
+                <Stack sx={{ position: 'relative', alignItems: 'center' }} direction='row'>
+                    <Typography variant='overline'>
+                        Description
+                        <span style={{ color: 'red' }}>&nbsp;*</span>
+                    </Typography>
+                    <TooltipWithParser
+                        title={'Description of the agent to be discovered by agent search service.'}                />
                 </Stack>
-
                 <OutlinedInput
                     sx={{ mt: 1 }}
                     id='chatflow-description'
                     type='text'
                     fullWidth
-                    fullHeight
+                    fullHeight                    
                     multiline={true}
                     placeholder='Please enter the description of the agent.'
                     value={chatflowDescription}
                     onChange={(e) => setChatflowDescription(e.target.value)}
                 />
-                            </Box>
+                </Box>
+                <Box><br/></Box>
+            <Box>
+                <Stack sx={{ position: 'relative', alignItems: 'center' }} direction='row'>
+                    <Typography variant='overline'>
+                        Gas
+                        <span style={{ color: 'red' }}>&nbsp;*</span>
+                    </Typography>
+                    <TooltipWithParser
+                        title={'Gas fee charged by this agent.'}                />
+                </Stack>
+                <OutlinedInput
+                    sx={{ mt: 1 }}
+                    id='chatflow-gas'
+                    type='number'
+                    fullWidth
+                    fullHeight                    
+                    multiline={true}
+                    placeholder='Please enter the gas charged by the agent.'
+                    value={chatflowGas}
+                    onChange={(e) => setChatflowGas(e.target.value)}
+                />
+                </Box>                
             </DialogContent>
             
             <DialogActions>
                 <Button onClick={onCancel}>{dialogProps.cancelButtonName}</Button>
-                <StyledButton disabled={!isReadyToSave} variant='contained' onClick={() => onConfirm(chatflowDescription, chatflowOwnerAddress)}>
+                <StyledButton disabled={!isReadyToSave} variant='contained' onClick={() => onConfirm(chatflowDescription, chatflowOwnerAddress, chatflowGas)}>
                     {dialogProps.confirmButtonName}
                 </StyledButton>
             </DialogActions>

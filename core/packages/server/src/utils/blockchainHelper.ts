@@ -28,7 +28,7 @@ export const publishToFileCoin = async(tool_id: string, jsonString: string) => {
         return cid
 }
 
-export const mintNFT = async(owner: string, agent_id: string, cid: string) => {
+export const mintNFT = async(owner: string, agent_id: string, cid: string, gas: number) => {
     const contractAddress = process.env.NTF_CONTRACT_ADDRESS
     if (!contractAddress) throw Error("Missing NFT_CONTRACT_ADDRESS in .env")
   
@@ -41,10 +41,10 @@ export const mintNFT = async(owner: string, agent_id: string, cid: string) => {
     let receipt
     // Call the startChat function
     try{
-      console.log(`NFTMinting for owner: ${owner}, id: ${agent_id}, cid: ${cid}`)
-      const transactionResponse = await contract.mint(owner, agent_id, cid);
+      console.log(`NFTMinting for owner: ${owner}, id: ${agent_id}, cid: ${cid}, gas: ${gas}`)
+      const transactionResponse = await contract.mint(owner, agent_id, cid, gas);
       receipt = await transactionResponse.wait()
-      console.log(`Task sent, tx hash: ${receipt.hash}`)  
+      console.log(`Task sent, tx hash: ${receipt.hash}`)
     } catch (e) {
       console.log(e)
     }

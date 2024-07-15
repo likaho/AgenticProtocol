@@ -136,15 +136,15 @@ const updateChatflow = async (req: Request, res: Response, next: NextFunction) =
         const body = req.body
         const updateChatFlow = new ChatFlow()
         Object.assign(updateChatFlow, body)
-
         updateChatFlow.id = chatflow.id
-        console.log(req.body)
+
         if(req.body.ownerAddress) {
             // Publish to FileCoin
             const owner_address = req.body.ownerAddress;
             const chatflow_id = chatflow.id;
             const chatflow_name = chatflow.name;
             const chatflow_description = body.description;
+            const chatflow_gas = body.gas;
             const chatflow_data = body.flowData;        
 
             const fileCoinJson = { "chatFlowName": chatflow_name, "chatFlowId": chatflow_id, "ownerAddress": owner_address, "chatFlowDescription": chatflow_description, "chatFlowData": chatflow_data };
@@ -152,7 +152,7 @@ const updateChatflow = async (req: Request, res: Response, next: NextFunction) =
             const cid = await publishToFileCoin(chatflow_id, jsonString)
             console.log("FileCoin CID: "+cid)
             // Mint NFT
-            const receipt = await mintNFT(owner_address, chatflow_id, cid)
+            const receipt = await mintNFT(owner_address, chatflow_id, cid, chatflow_gas)
             const txHash = receipt.hash;
             console.log("NFT Transaction Hash:" +txHash)
             
@@ -162,7 +162,7 @@ const updateChatflow = async (req: Request, res: Response, next: NextFunction) =
             updateChatFlow.tokenId = chatflow_id
             updateChatFlow.description = chatflow_description
             updateChatFlow.isPublished = true
-            updateChatFlow.gas = 100
+            updateChatFlow.gas = chatflow_gas
 
             // Publish to vector search service
             const payload = JSON.stringify({"name": chatflow_name, "description": updateChatFlow.description, "query_type": "str", "query_description": "user prompt", "return_type": "str", "return_description": "completion", "id": updateChatFlow.id})
