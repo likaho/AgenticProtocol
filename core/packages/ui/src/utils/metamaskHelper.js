@@ -1,10 +1,12 @@
 import { ethers } from 'ethers';
+import dotenv from 'dotenv';
+import { ConstructionOutlined } from '@mui/icons-material';
 const { ethereum } = window;
 
 export const switchNetwork = async() => {
-    const chainId = '696969'
+    const chainId = '696969' //
     // Convert chainId to hexadecimal string (if necessary)
-    const chainIdhex = '0xAA289';
+    const chainIdhex = '0xf35a' //'0xf35a';  //galadriel chainIdhex: 0xAA289
 
     if (window.ethereum.net_version !== chainId) {
         try {

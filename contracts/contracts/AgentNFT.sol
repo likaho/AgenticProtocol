@@ -6,11 +6,11 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";/**
  * enumerability of all the token ids in the contract as well as all token ids owned by each
  * account.
  */
-contract AGENTL is ERC721 {
+contract AgentNFT is ERC721 {
 
     // Struct Identifier definition
     struct Identifier {
-        string tool_id;  // Tool ID
+        string agent_id;  // Agent ID
         string dataCID;     // IPFS CID (Content Identifier) for NFT data
     }
 
@@ -32,21 +32,25 @@ contract AGENTL is ERC721 {
         baseURI = "https://gateway.lighthouse.storage/ipfs/"; // Set your base URI for token metadata        
     }
 
-    function getTokenURI(string memory _tool_id) external view returns(string memory) {
-        string memory cid = identifiers[uint256(keccak256(abi.encode(_tool_id)))].dataCID;
+    function getTokenURI(string memory _agent_id) external view returns(string memory) {
+        string memory cid = identifiers[uint256(keccak256(abi.encode(_agent_id)))].dataCID;
         return string(abi.encodePacked(baseURI, cid));
     }
     
     // Mint function to create a new token and associate it with an Identifier
-    function mint(address owner, string memory _tool_id, string memory _dataCID) external {
+    function mint(address owner, string memory _agent_id, string memory _dataCID) external {
         // Calculate the tokenId based on the dataCID
-        require(bytes(_tool_id).length > 0, "Tool id cannot be an empty string.");
+        require(bytes(_agent_id).length > 0, "Tool id cannot be an empty string.");
         require(bytes(_dataCID).length > 0, "dataCID cannot be an empty string.");
-        uint256 tokenId = uint256(keccak256(abi.encode(_tool_id)));
+        uint256 tokenId = uint256(keccak256(abi.encode(_agent_id)));
+        bytes memory cid = bytes(identifiers[tokenId].dataCID);
+        if(cid.length > 0) {
+            _burn(tokenId);
+        } 
         // Mint the token and associate it with the sender's address
         _mint(owner, tokenId);
         // Store the Identifier in the mapping
-        identifiers[tokenId] = Identifier(_tool_id, _dataCID);
+        identifiers[tokenId] = Identifier(_agent_id, _dataCID);
         emit Minted(tokenId);
     }
 
@@ -58,10 +62,18 @@ contract AGENTL is ERC721 {
     function setBaseURI(string memory newURI) external onlyAdmin {
         baseURI = newURI;
     }
+    
     // Burn function to destroy a token and remove its associated Identifier
     function burn(uint256 _tokenId) external {
         require(msg.sender == ownerOf(_tokenId) || admin == msg.sender, "ERC721: caller is not token owner or approved");
         _burn(_tokenId);
         delete identifiers[_tokenId];
+    }
+
+    function getTokenId(string memory _agent_id) external pure returns(uint256) {
+        // Calculate the tokenId based on the dataCID
+        require(bytes(_agent_id).length > 0, "Tool id cannot be an empty string.");
+        uint256 tokenId = uint256(keccak256(abi.encode(_agent_id)));
+        return tokenId;
     }
 }

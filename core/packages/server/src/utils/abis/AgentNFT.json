@@ -292,7 +292,26 @@
         "inputs": [
             {
                 "internalType": "string",
-                "name": "_tool_id",
+                "name": "_agent_id",
+                "type": "string"
+            }
+        ],
+        "name": "getTokenId",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "pure",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "_agent_id",
                 "type": "string"
             }
         ],
@@ -340,7 +359,7 @@
             },
             {
                 "internalType": "string",
-                "name": "_tool_id",
+                "name": "_agent_id",
                 "type": "string"
             },
             {

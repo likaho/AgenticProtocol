@@ -1,6 +1,6 @@
 import lighthouse from '@lighthouse-web3/sdk';
 import {Contract, ethers, TransactionReceipt, Wallet} from "ethers";
-import ABI from "./abis/AGENTL.json";
+import ABI from "./abis/AgentNFT.json";
 import ERC20ABI from "./abis/AGEN.json";
 import fs from 'fs';
 
@@ -28,7 +28,7 @@ export const publishToFileCoin = async(tool_id: string, jsonString: string) => {
         return cid
 }
 
-export const mintNFT = async(owner: string, tool_id: string, cid: string) => {
+export const mintNFT = async(owner: string, agent_id: string, cid: string) => {
     const contractAddress = process.env.NTF_CONTRACT_ADDRESS
     if (!contractAddress) throw Error("Missing NFT_CONTRACT_ADDRESS in .env")
   
@@ -38,10 +38,16 @@ export const mintNFT = async(owner: string, tool_id: string, cid: string) => {
     )
     const contract = new Contract(contractAddress, ABI, wallet)
   
+    let receipt
     // Call the startChat function
-    const transactionResponse = await contract.mint(owner, tool_id, cid);
-    const receipt = await transactionResponse.wait()
-    console.log(`Task sent, tx hash: ${receipt.hash}`)
+    try{
+      console.log(`NFTMinting for owner: ${owner}, id: ${agent_id}, cid: ${cid}`)
+      const transactionResponse = await contract.mint(owner, agent_id, cid);
+      receipt = await transactionResponse.wait()
+      console.log(`Task sent, tx hash: ${receipt.hash}`)  
+    } catch (e) {
+      console.log(e)
+    }
     return receipt;
   }
 
