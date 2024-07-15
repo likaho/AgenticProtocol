@@ -143,8 +143,8 @@ const chatwindowConfig = (isReact = false) => {
                     footer: {
                         textColor: '#303235',
                         text: 'Powered by',
-                        company: 'Flowise',
-                        companyLink: 'https://flowiseai.com',
+                        company: 'Agentic Protocol',
+                        companyLink: 'https://agenticprotocol.ai',
                     }
                 }`
         : `chatWindow: {
@@ -184,8 +184,8 @@ const chatwindowConfig = (isReact = false) => {
                 footer: {
                     textColor: '#303235',
                     text: 'Powered by',
-                    company: 'Flowise',
-                    companyLink: 'https://flowiseai.com',
+                    company: 'Agentic Protocol',
+                    companyLink: 'http://agenticprotocol.ai',
                 }
             }`
 }

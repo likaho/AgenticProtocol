@@ -47,7 +47,7 @@ def create_function_call(user_query: str, documents: list) -> str:
           prompt += str(item) + "\n"
 
     prompt = prompt + f'''User Query: {user_query}<human_end>'''
-
+    print(prompt)
     call = query_raven(prompt)
     return call
 
