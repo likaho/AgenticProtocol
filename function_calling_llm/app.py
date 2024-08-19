@@ -106,7 +106,7 @@ def useService():
       # check if the parameters are valid
       print(f"function_call: {function_call}")
       id = function_details["ids"][0][0]
-      marketplace_url = f"{os.getenv("MARKETPLACE_URL")}/{id}/"
+      marketplace_url = os.getenv("MARKETPLACE_URL") + "/" + id + "/"
       payload = json.dumps({"question":user_query, "chatId": str(chatId) })
       response = requests.post(marketplace_url, data=payload, headers={'Content-Type': 'application/json'})
       return response.json()

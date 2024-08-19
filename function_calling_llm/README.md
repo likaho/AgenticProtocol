@@ -1,0 +1,56 @@
+## Prerequisites
+
+* Learn how to use the shell/terminal/console/bash on your device
+  * Get familiar with basic commands like `cd`, `ls` and `mkdir`
+  * Learn how to execute packages, scripts and commands on your device
+* Install python tools on your device
+  * [Python](https://www.python.org/downloads/)
+  * [Pip](https://pip.pypa.io/en/stable/installation/)
+* Learn how to use `python` and `pip` commands
+  * Docs: [Python](https://docs.python.org/3/)
+  * Docs: [Pip](https://pip.pypa.io/en/stable/)
+* Learn how to use `venv` to create and manage virtual environments
+  * Docs: [Python venv](https://docs.python.org/3/library/venv.html)
+
+  ### 1. Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/likaho/AgenticProtocol.git
+cd AgenticProtocol/function_calling_llm
+```
+### 2. Create virtual environment in bash shell in Linux:
+
+```bash
+python3 -m venv venv
+source ./venv/bin/activate
+```
+
+### 3. Install all dependencies of all modules:
+
+```bash
+pip install -r requirements.txt
+pip install flask
+pip install PyYAML
+pip install chromadb
+pip install Flask-Cors
+```
+
+### 4. Create environment variables:
+
+Create `.env` file and specify environment variables (refer to `.env.example`) in `function_calling_llm`
+
+```bash
+cp .env.example .env
+```
+
+### 5. Run Server:
+
+```bash
+python3 app.py
+# or for Windows
+py app.py
+```
+
+The server app should be running on http://localhost:5000

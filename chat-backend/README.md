@@ -14,18 +14,34 @@ AgenticProtocol integrates decentralized AI capabilities using various APIs for 
 
 ### 1. Installation
 
-1. Clone the repository:
+Clone the repository:
 
 ```bash
 git clone https://github.com/likaho/AgenticProtocol.git
-cd chat-backend
+cd AgenticProtocol/chat-backend/zkml_agents
 ```
 
-### 2. Run Server:
+### 2. Install all dependencies of all modules:
 
 ```bash
-cd zkml_agents
+npm install
+```
+
+### 3. Create environment variables:
+
+Create `.env` file and specify environment variables (refer to `.env.example`) in `chat-backend/zkml_agents`
+
+```bash
+cp .env.example .env
+```
+
+### 4. Create a private key for sending transactions to Galadriel Network:
+
+
+### 5. Run Server:
+
+```bash
 npm start
 ```
 
-
+The server app should be running on http://localhost:3001

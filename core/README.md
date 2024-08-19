@@ -26,7 +26,7 @@ git clone https://github.com/likaho/AgenticProtocol.git
 
 ```bash
 
-cd core
+cd AgenticProtocol/core
 
 ```
 
@@ -64,9 +64,12 @@ pnpm build
 
 - Create `.env` file and specify the `PORT` and other environment variables (refer to `.env.example`) in `packages/server`
 
+```bash
+cp .env.example .env
+```
+
 - Run
 
-  
 
 ```bash
 

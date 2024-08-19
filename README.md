@@ -110,7 +110,7 @@ git clone https://github.com/likaho/AgenticProtocol.git
 
 ```bash
 
-cd core
+cd AgenticProtocol/core
 
 ```
 
@@ -143,6 +143,11 @@ pnpm build
 5. Start the app:
 
 - Create `.env` file and specify the `VITE_PORT` and other environment variables (refer to `.env.example`) in `packages/ui`
+
+```bash
+cp .env.example .env
+```
+
 
 - Create `.env` file and specify the `PORT` and other environment variables (refer to `.env.example`) in `packages/server`
 
