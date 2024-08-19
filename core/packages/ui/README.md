@@ -34,23 +34,7 @@ pnpm build
 
   
 
-```bash
-
-pnpm start
-
-```
-
-  
-
-You can now access the app on [http://localhost:8080](http://localhost:8080)
-
-  
-
-4. For development build:
-
-  
-
-- Create `.env` file and specify the `VITE_PORT` (refer to `.env.example`) in `packages/ui`
+- Create `.env` file and specify the `VITE_PORT` (refer to `.env.example`) in `core/packages/ui`
 
 - Run
 
@@ -64,10 +48,8 @@ pnpm dev
 
   
 
-Any code changes will reload the app automatically on [http://localhost:8080](http://localhost:8080)
+Any code changes will reload the app automatically on [http://localhost:3032](http://localhost:3032)
 
-  
-  
   
 
 ## 🙋 Support

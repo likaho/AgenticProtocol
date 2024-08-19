@@ -20,13 +20,13 @@ git clone https://github.com/likaho/AgenticProtocol.git
 
   
 
-2. Go into individual repository folder, for example core/packages/ui
+2. Go into individual repository folder, for example core
 
   
 
 ```bash
 
-cd packages/ui
+cd core
 
 ```
 
@@ -60,22 +60,6 @@ pnpm build
 
   
 
-```bash
-
-pnpm start
-
-```
-
-  
-
-You can now access the app on [http://localhost:8080](http://localhost:8080)
-
-  
-
-6. For development build:
-
-  
-
 - Create `.env` file and specify the `VITE_PORT` (refer to `.env.example`) in `packages/ui`
 
 - Create `.env` file and specify the `PORT` (refer to `.env.example`) in `packages/server`
@@ -92,7 +76,23 @@ pnpm dev
 
   
 
-Any code changes will reload the app automatically on [http://localhost:8080](http://localhost:8080)
+Any code changes will reload the app automatically on [http://localhost:3032](http://localhost:3032)
+
+  
+
+6. For development build:
+
+  
+
+```bash
+
+pnpm start
+
+```
+
+  
+
+You can now access the app on [http://localhost:8080](http://localhost:8080)
 
   
   
