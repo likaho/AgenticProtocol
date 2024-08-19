@@ -60,9 +60,9 @@ pnpm build
 
   
 
-- Create `.env` file and specify the `VITE_PORT` (refer to `.env.example`) in `packages/ui`
+- Create `.env` file and specify the `VITE_PORT` and other environment variables (refer to `.env.example`) in `packages/ui`
 
-- Create `.env` file and specify the `PORT` (refer to `.env.example`) in `packages/server`
+- Create `.env` file and specify the `PORT` and other environment variables (refer to `.env.example`) in `packages/server`
 
 - Run
 
@@ -80,7 +80,7 @@ Any code changes will reload the app automatically on [http://localhost:3032](ht
 
   
 
-6. For development build:
+6. For production build:
 
   
 
@@ -92,8 +92,7 @@ pnpm start
 
   
 
-You can now access the app on [http://localhost:8080](http://localhost:8080)
-
+You can now access the app on [http://localhost:3032](http://localhost:3032)
   
   
   

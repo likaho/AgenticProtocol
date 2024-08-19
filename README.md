@@ -142,9 +142,9 @@ pnpm build
 
 5. Start the app:
 
-- Create `.env` file and specify the `VITE_PORT` (refer to `.env.example`) in `packages/ui`
+- Create `.env` file and specify the `VITE_PORT` and other environment variables (refer to `.env.example`) in `packages/ui`
 
-- Create `.env` file and specify the `PORT` (refer to `.env.example`) in `packages/server`
+- Create `.env` file and specify the `PORT` and other environment variables (refer to `.env.example`) in `packages/server`
 
 - Run
 
@@ -157,7 +157,7 @@ pnpm dev
   
   
 
-You can now access the app on [http://localhost:8080](http://localhost:8080)
+You can now access the app on [http://localhost:3032](http://localhost:3032)
 
   
 
