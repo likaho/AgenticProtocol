@@ -13,7 +13,7 @@ app = Flask(__name__)
 CORS(app)
 
 def delete_agent_or_chatflow(type: str, id: str):
-  chroma_client = chromadb.PersistentClient(path="agenticprotocol/vectordb")
+  chroma_client = chromadb.PersistentClient(path="vectordb")
   collection = chroma_client.get_or_create_collection(name="marketplace")
   results = collection.get(ids=[id])
   if len(results["ids"]) > 0:
@@ -34,7 +34,7 @@ def create_agent_or_chatflow(type: str):
     return_description = request.json['return_description'] #e.g. The weather forecast.
     id = request.json['id']
 
-    chroma_client = chromadb.PersistentClient(path="agenticprotocol/vectordb")
+    chroma_client = chromadb.PersistentClient(path="vectordb")
     function_name = f"def {name}(query):"
     function_doc = \
     f'''
