@@ -171,7 +171,7 @@ pnpm start
 ```
  
 
-Any code changes will reload the app automatically on [http://localhost:8080](http://localhost:8080)
+Any code changes will reload the app automatically on [http://localhost:3032](http://localhost:3032)
 
   
   
