@@ -18,7 +18,7 @@ Clone the repository:
 
 ```bash
 git clone https://github.com/likaho/AgenticProtocol.git
-cd AgenticProtocol/chat-backend/zkml_agents
+cd AgenticProtocol/chat-backend
 ```
 
 ### 2. Install all dependencies of all modules:
@@ -29,7 +29,7 @@ npm install
 
 ### 3. Create environment variables:
 
-Create `.env` file and specify environment variables (refer to `.env.example`) in `chat-backend/zkml_agents`
+Create `.env` file and specify environment variables (refer to `.env.example`) in `chat-backend`
 
 ```bash
 cp .env.example .env

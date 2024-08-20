@@ -5,8 +5,7 @@
   "scripts": {
     "start": "ts-node app.ts",
     "chat": "ts-node chat.ts",
-    "chat_vision": "ts-node chat_vision.ts",
-    "agent": "ts-node agent.ts"
+    "chat_vision": "ts-node chat_vision.ts"
   },
   "author": "",
   "license": "ISC",
