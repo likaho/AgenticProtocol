@@ -24,3 +24,16 @@ pnpm dev
 ```
 
 The server app should be running on http://localhost:3000
+
+## Run Docker 
+### 1. Build a docker image:
+
+```bash
+docker build -t chat-ui .
+```
+
+### 2. Run a docker container:
+
+```bash
+docker run --name chat-ui -p 3000:3000 chat-ui
+```

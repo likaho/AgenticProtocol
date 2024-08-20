@@ -20,13 +20,13 @@ git clone https://github.com/likaho/AgenticProtocol.git
 
   
 
-2. Go into individual repository folder, for example core
+2. Go into individual repository folder, for example ai-app-builder
 
   
 
 ```bash
 
-cd AgenticProtocol/core
+cd AgenticProtocol/ai-app-builder
 
 ```
 
@@ -98,7 +98,18 @@ pnpm start
 You can now access the app on [http://localhost:3032](http://localhost:3032)
   
   
-  
+## Run Docker 
+### 1. Build a docker image:
+
+```bash
+docker build -t ai-app-builder .
+```
+
+### 2. Run a docker container:
+
+```bash
+docker run --name ai-app-builder -p 3032:3032 ai-app-builder
+```  
 
 ## 🙋 Support
 

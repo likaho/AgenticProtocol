@@ -30,13 +30,13 @@ The combination of FileCoin, NFTs, and zkML creates a powerful ecosystem for AI 
 
 1.  **chat-ui**: This folder is dedicated to the chat web client.
 
-2.  **chat-backend**: This folder contains an Express web service that handles chat services. It forwards prompts to the Galadriel network.
+2.  **llm-server**: This folder contains an Express web service that handles chat services. It forwards prompts to the Galadriel network.
 
 3.  **contracts**: Here, you'll find all the NFT (AGENTL) and ERC20 (AGEN) contracts.
 
-4.  **core**: The core folder includes both client and server-side projects. It provides a no-code agent building tool and serves as the marketplace.
+4.  **ai-app-builder**: The ai-app-builder folder includes both client and server-side projects. It provides a no-code agent building tool and serves as the marketplace.
 
-5.  **function_calling_llm**: In this folder, you'll find Python scripts responsible for function calling. They act as a proxy, deciding which tool or agent to call or redirecting calls to the Galadriel network.
+5.  **llm-proxy-server**: In this folder, you'll find Python scripts responsible for function calling. They act as a proxy, deciding which tool or agent to call or redirecting calls to the Galadriel network.
 
   
   
@@ -88,7 +88,7 @@ The user prompt is transmitted to our marketplace, where the appropriate tool or
 - **Using Galadriel Network for zkML Proofs:**
   - Once confirmed, our default gateway redirects the prompt to the Galadriel Network via Oracle. zkML inference is performed to validate the integrity of the inference. 
 
-### For the Core Project Setup
+### For the ai-app-builder Project Setup
 
   
 
@@ -104,13 +104,13 @@ git clone https://github.com/likaho/AgenticProtocol.git
 
   
 
-2. Go into individual repository folder, for example core
+2. Go into individual repository folder, for example ai-app-builder
 
   
 
 ```bash
 
-cd AgenticProtocol/core
+cd AgenticProtocol/ai-app-builder
 
 ```
 

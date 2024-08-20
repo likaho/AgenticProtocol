@@ -6,6 +6,7 @@ import json
 from dotenv import load_dotenv
 from flask_cors import CORS
 import chromadb
+import certifi
 
 load_dotenv()
 
@@ -82,7 +83,7 @@ def chat_completion(user_query: str, chatId: str):
   # Forward a user query to a LLM  to Galadriel network
   json_body = {"question":user_query, "chatId": chatId }
   llm_url = os.getenv("GALADRIEL_URL")
-  response = requests.post(llm_url, json = json_body)  
+  response = requests.post(llm_url, json = json_body, verify=certifi.where())  
   return response
 
 @app.route('/api/v1/prediction/123', methods=['POST'])
@@ -104,26 +105,8 @@ def useService():
       id = function_details["ids"][0][0]
       marketplace_url = os.getenv("MARKETPLACE_URL") + "/" + id + "/"
       payload = json.dumps({"question":user_query, "chatId": str(chatId) })
-      response = requests.post(marketplace_url, data=payload, headers={'Content-Type': 'application/json'})
+      response = requests.post(marketplace_url, data=payload, verify=certifi.where(), headers={'Content-Type': 'application/json'})
       return response.json()
-      # # call the function
-      # openapi_url = function_details["metadatas"][0][0]["openapi_uri"]
-      # service_url = function_details["metadatas"][0][0]["end_point"]
-      # import_statement = function_details["metadatas"][0][0]["import_statement"]
-
-      # output_dir = generate_hash(clean_url(openapi_url))
-      # generate_open_api_services(openapi_url, service_url, output_dir)
-
-      # exec(import_statement)
-      # result = eval(function_call)
-
-      # from threading import Thread
-      # # Create a thread object with the worker function and data
-      # thread = Thread(target=remove_openapi_files, args=(output_dir,))
-      # thread.start()  
-      # return jsonify(result)
-
-
      
 if __name__ == '__main__':
-  app.run(debug=True)
+  app.run(host='0.0.0.0', port=5000)

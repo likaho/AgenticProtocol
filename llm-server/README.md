@@ -1,4 +1,4 @@
-# AgenticProtocol - Chat-Backend
+# AgenticProtocol - llm-server
 
 ## Overview
 
@@ -18,7 +18,7 @@ Clone the repository:
 
 ```bash
 git clone https://github.com/likaho/AgenticProtocol.git
-cd AgenticProtocol/chat-backend
+cd AgenticProtocol/llm-server
 ```
 
 ### 2. Install all dependencies of all modules:
@@ -29,7 +29,7 @@ npm install
 
 ### 3. Create environment variables:
 
-Create `.env` file and specify environment variables (refer to `.env.example`) in `chat-backend`
+Create `.env` file and specify environment variables (refer to `.env.example`) in `llm-server`
 
 ```bash
 cp .env.example .env
@@ -45,3 +45,17 @@ npm start
 ```
 
 The server app should be running on http://localhost:3001
+
+
+## Run Docker 
+### 1. Build a docker image:
+
+```bash
+docker build -t llm-server .
+```
+
+### 2. Run a docker container:
+
+```bash
+docker run --name llm-server -p 3001:3001 llm-server
+```

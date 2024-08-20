@@ -18,7 +18,7 @@ Clone the repository:
 
 ```bash
 git clone https://github.com/likaho/AgenticProtocol.git
-cd AgenticProtocol/function_calling_llm
+cd AgenticProtocol/llm-proxy-server
 ```
 ### 2. Create virtual environment in bash shell in Linux:
 
@@ -31,15 +31,11 @@ source ./venv/bin/activate
 
 ```bash
 pip install -r requirements.txt
-pip install flask
-pip install PyYAML
-pip install chromadb
-pip install Flask-Cors
 ```
 
 ### 4. Create environment variables:
 
-Create `.env` file and specify environment variables (refer to `.env.example`) in `function_calling_llm`
+Create `.env` file and specify environment variables (refer to `.env.example`) in `llm-proxy-server`
 
 ```bash
 cp .env.example .env
@@ -54,3 +50,17 @@ py app.py
 ```
 
 The server app should be running on http://localhost:5000
+
+
+## Run Docker 
+### 1. Build a docker image:
+
+```bash
+docker build -t llm-proxy-server .
+```
+
+### 2. Run a docker container:
+
+```bash
+docker run --name llm-proxy-server -p 5000:5000 llm-proxy-server
+```
