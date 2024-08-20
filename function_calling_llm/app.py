@@ -84,10 +84,6 @@ def chat_completion(user_query: str, chatId: str):
   llm_url = os.getenv("GALADRIEL_URL")
   response = requests.post(llm_url, json = json_body)  
   return response
-  # if(response.status_code == 200):
-  #   return response.text
-  # else:
-  #    return response.status_code
 
 @app.route('/api/v1/prediction/123', methods=['POST'])
 def useService():

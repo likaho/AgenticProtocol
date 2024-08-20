@@ -13,15 +13,7 @@ cd AgenticProtocol/chat-ui
 npm install
 ```
 
-### 3. Create environment variables:
-
-Create `.env` file and specify environment variables (refer to `.env.example`) in `chat-ui`
-
-```bash
-cp .env.example .env
-```
-
-### 4. Run Server:
+### 3. Run Server:
 
 ```bash
 npm run dev
