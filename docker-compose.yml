@@ -1,0 +1,49 @@
+version: '3.4'
+
+services:
+  llm-server:
+    image: llm-server
+    build:
+      context: llm-server
+      dockerfile: ./Dockerfile
+    env_file:
+      - ./llm-server/.env
+    environment:
+      NODE_ENV: production
+    ports:
+      - 3001:3001
+
+  ai-app-builder:
+    image: ai-app-builder
+    build:
+      context: ai-app-builder
+      dockerfile: ./Dockerfile
+    ports:
+      - 3031:3031
+
+  llm-proxy-server:
+    image: llm-proxy-server
+    build:
+      context: llm-proxy-server
+      dockerfile: ./Dockerfile
+    env_file:
+      - ./llm-proxy-server/.env
+    depends_on:
+      llm-server:
+        condition: service_healthy
+      ai-app-builder:
+        condition: service_healthy
+    ports:
+      - 5000:5000
+
+  chat-ui:
+    image: chat-ui
+    build:
+      context: chat-ui
+      dockerfile: ./Dockerfile
+    depends_on:
+      llm-proxy-server:
+        condition: service_healthy
+    ports:
+      - 3000:3000
+

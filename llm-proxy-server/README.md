@@ -53,13 +53,21 @@ The server app should be running on http://localhost:5000
 
 
 ## Run Docker 
-### 1. Build a docker image:
+### 1. Create environment variables:
+
+Create `.env` file and specify environment variables (refer to `.env.example`) in `llm-proxy-server`
+
+```bash
+cp .env.example .env
+```
+
+### 2. Build a docker image:
 
 ```bash
 docker build -t llm-proxy-server .
 ```
 
-### 2. Run a docker container:
+### 3. Run a docker container:
 
 ```bash
 docker run --name llm-proxy-server -p 5000:5000 llm-proxy-server

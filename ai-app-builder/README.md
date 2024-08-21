@@ -99,16 +99,32 @@ You can now access the app on [http://localhost:3032](http://localhost:3032)
   
   
 ## Run Docker 
-### 1. Build a docker image:
+### 1. Create .env files and private keys:
+
+- Create `.env` file and specify environment variables (refer to `.env.example`) in `packages/ui`
+
+    ```bash
+    cp .env.example .env
+    ```
+
+- Create `.env` file and specify environment variables (refer to `.env.example`) in `packages/server`
+
+    ```bash
+    cp .env.example .env
+    ```
+
+- Create a private key
+
+### 2. Build a docker image:
 
 ```bash
 docker build -t ai-app-builder .
 ```
 
-### 2. Run a docker container:
+### 3. Run a docker container:
 
 ```bash
-docker run --name ai-app-builder -p 3032:3032 ai-app-builder
+docker run --name ai-app-builder -p 3031:3031 ai-app-builder
 ```  
 
 ## 🙋 Support

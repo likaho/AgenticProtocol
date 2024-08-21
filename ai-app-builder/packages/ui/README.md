@@ -34,7 +34,7 @@ pnpm build
 
   
 
-- Create `.env` file and specify the `VITE_PORT` (refer to `.env.example`) in `core/packages/ui`
+- Create `.env` file and specify the `VITE_PORT` (refer to `.env.example`) in `ai-app-builder/packages/ui`
 
 - Run
 

@@ -6,7 +6,6 @@ import json
 from dotenv import load_dotenv
 from flask_cors import CORS
 import chromadb
-import certifi
 
 load_dotenv()
 
@@ -83,7 +82,7 @@ def chat_completion(user_query: str, chatId: str):
   # Forward a user query to a LLM  to Galadriel network
   json_body = {"question":user_query, "chatId": chatId }
   llm_url = os.getenv("GALADRIEL_URL")
-  response = requests.post(llm_url, json = json_body, verify=certifi.where())  
+  response = requests.post(llm_url, json = json_body)
   return response
 
 @app.route('/api/v1/prediction/123', methods=['POST'])
@@ -105,7 +104,7 @@ def useService():
       id = function_details["ids"][0][0]
       marketplace_url = os.getenv("MARKETPLACE_URL") + "/" + id + "/"
       payload = json.dumps({"question":user_query, "chatId": str(chatId) })
-      response = requests.post(marketplace_url, data=payload, verify=certifi.where(), headers={'Content-Type': 'application/json'})
+      response = requests.post(marketplace_url, data=payload, headers={'Content-Type': 'application/json'})
       return response.json()
      
 if __name__ == '__main__':
