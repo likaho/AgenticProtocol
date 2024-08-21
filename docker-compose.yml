@@ -2,6 +2,7 @@ version: '3.4'
 
 services:
   llm-server:
+    container_name: llm-server
     image: llm-server
     build:
       context: llm-server
@@ -14,6 +15,7 @@ services:
       - 3001:3001
 
   ai-app-builder:
+    container_name: ai-app-builder
     image: ai-app-builder
     build:
       context: ai-app-builder
@@ -22,21 +24,26 @@ services:
       - 3031:3031
 
   llm-proxy-server:
+    container_name: llm-proxy-server
     image: llm-proxy-server
     build:
       context: llm-proxy-server
       dockerfile: ./Dockerfile
     env_file:
       - ./llm-proxy-server/.env
-    depends_on:
-      llm-server:
-        condition: service_healthy
-      ai-app-builder:
-        condition: service_healthy
+    environment:
+      - GALADRIEL_URL=http://llm-server:3001
+      - MARKETPLACE_URL=http://ai-app-builder:3031/api/v1/prediction
+    # depends_on:
+    #   llm-server:
+    #     condition: service_healthy
+    #   ai-app-builder:
+    #     condition: service_healthy
     ports:
       - 5000:5000
 
   chat-ui:
+    container_name: chat-ui
     image: chat-ui
     build:
       context: chat-ui
