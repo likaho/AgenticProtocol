@@ -1,3 +1,6 @@
+node_modules
+dist
+build
 **/.classpath
 **/.dockerignore
 **/.git
@@ -15,6 +18,8 @@
 **/compose*
 **/Dockerfile*
 **/node_modules
+**/build
+**/dist
 **/npm-debug.log
 **/obj
 **/secrets.dev.yaml

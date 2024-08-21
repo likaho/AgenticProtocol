@@ -5,7 +5,7 @@
 # docker run -d -p 3000:3000 flowise
 
 FROM node:20-alpine
-ENV NODE_TLS_REJECT_UNAUTHORIZED=0
+# ENV NODE_TLS_REJECT_UNAUTHORIZED=0
 # RUN apk add --update libc6-compat python3 make g++
 # needed for pdfjs-dist
 # RUN apk add --no-cache build-base cairo-dev pango-dev
@@ -14,7 +14,7 @@ ENV NODE_TLS_REJECT_UNAUTHORIZED=0
 # RUN apk add --no-cache chromium
 
 #install PNPM globaly
-RUN npm install -g pnpm
+RUN npm install -g pnpm@9.4.0
 
 ENV PUPPETEER_SKIP_DOWNLOAD=true
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
