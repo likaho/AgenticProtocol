@@ -34,6 +34,8 @@ Create `.env` file and specify environment variables (refer to `.env.example`) i
 ```bash
 cp .env.example .env
 ```
+ - Edit .env file
+ - Set PRIVATE_KEY to the private key of Galadriel devnet account 
 
 ### 4. Create a private key for sending transactions to Galadriel Network:
 
@@ -48,13 +50,24 @@ The server app should be running on http://localhost:3001
 
 
 ## Run Docker 
-### 1. Build a docker image:
+### 1. Create environment variables:
+
+Create `.env` file and specify environment variables (refer to `.env.example`) in `llm-server`
+
+```bash
+cp .env.example .env
+```
+ - Edit .env file
+ - Set PRIVATE_KEY to the private key of Galadriel devnet account 
+
+
+### 2. Build a docker image:
 
 ```bash
 docker build -t llm-server .
 ```
 
-### 2. Run a docker container:
+### 3. Run a docker container:
 
 ```bash
 docker run --name llm-server -p 3001:3001 llm-server

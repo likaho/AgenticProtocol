@@ -30,7 +30,7 @@ The combination of FileCoin, NFTs, and zkML creates a powerful ecosystem for AI 
 
 1.  **chat-ui**: This folder is dedicated to the chat web client.
 
-2.  **llm-server**: This folder contains an Express web service that handles chat services. It forwards prompts to the Galadriel network.
+2.  **llm-server**: This folder contains an Express web service that handles requests from llm-proxy-server service. It forwards prompts to the Galadriel network.
 
 3.  **contracts**: Here, you'll find all the NFT (AGENTL) and ERC20 (AGEN) contracts.
 
@@ -88,12 +88,23 @@ The user prompt is transmitted to our marketplace, where the appropriate tool or
 - **Using Galadriel Network for zkML Proofs:**
   - Once confirmed, our default gateway redirects the prompt to the Galadriel Network via Oracle. zkML inference is performed to validate the integrity of the inference. 
 
-### For the ai-app-builder Project Setup
+## Getting Started
 
+### Prerequisites
+
+* Docker installed on your system
+* Docker Compose installed on your system
+* Meta Mask extension [installed](https://support.metamask.io/getting-started/getting-started-with-metamask/) on your web browser
+* A Galadriel devnet [account](https://docs.galadriel.com/setting-up-a-wallet). We recommend creating a new EVM account for development purposes.
+* Some [Galadriel devnet tokens](https://docs.galadriel.com/faucet) on the account you are using.
+* A Citrea devnet [account](https://docs.citrea.xyz/user-guide/how-to-use-bridge) for creating NFT
+* Some [Citrea devnet tokens](https://docs.citrea.xyz/user-guide/how-to-use-bridge) on the account you are using.
+* Create a Lighthouse [API Key](https://docs.lighthouse.storage/lighthouse-1/quick-start#create-an-api-key) for uploading JSON file to FileCoin storage
+
+### Running the Project
   
 
 1. Clone the repository
-
   
 
 ```bash
@@ -104,79 +115,78 @@ git clone https://github.com/likaho/AgenticProtocol.git
 
   
 
-2. Go into individual repository folder, for example ai-app-builder
+2. Go into individual directory, create .env file 
 
-  
 
-```bash
+- Go into ai-app-builder/packages/server/ directory
 
-cd AgenticProtocol/ai-app-builder
-
-```
-
-  
-
-3. Install all dependencies of all modules:
-
-  
 
 ```bash
 
-pnpm install
-
-```
-
-  
-
-4. Build all the code:
-
-  
-
-```bash
-
-pnpm build
-
-```
-
-  
-
-5. Start the app:
-
-- Create `.env` file and specify the `VITE_PORT` and other environment variables (refer to `.env.example`) in `packages/ui`
-
-```bash
+cd AgenticProtocol/ai-app-builder/packages/server/
 cp .env.example .env
-```
-
-
-- Create `.env` file and specify the `PORT` and other environment variables (refer to `.env.example`) in `packages/server`
-
-- Run
-
-  
-```bash
-
-pnpm dev
 
 ```
-  
-  
 
-You can now access the app on [http://localhost:3032](http://localhost:3032)
 
-  
+ - Edit .env file
+ - Set LIGHTHOUSE_API_KEY to an API key of Lighthouse storage account
+ - Set PRIVATE_KEY to the private key of Citrea devnet account 
 
-6. For production build:
+
+- Go into ai-app-builder/packages/ui/ directory
 
 
 ```bash
 
-pnpm start
+cd AgenticProtocol/ai-app-builder/packages/ui/
+cp .env.example .env
 
 ```
- 
 
-Any code changes will reload the app automatically on [http://localhost:3032](http://localhost:3032)
+
+- Go into llm-proxy-server directory
+
+
+```bash
+
+cd AgenticProtocol/llm-proxy-server
+cp .env.example .env
+
+```
+
+- Go into llm-server directory
+
+```bash
+
+cd AgenticProtocol/llm-server
+cp .env.example .env
+
+```
+
+ - Edit .env file
+ - Set PRIVATE_KEY to the private key of Galadriel devnet account 
+
+
+  
+
+3. Start the apps and services:
+
+  
+
+```bash
+
+cd AgenticProtocol
+docker-compose up -d
+
+```
+
+  
+
+You can now access the AI builder app on [http://localhost:3031](http://localhost:3031)
+
+
+And chat-ui on [http://localhost:3000](http://localhost:3000)
 
   
   

@@ -32,16 +32,38 @@ pnpm build
 
 3. Start the app:
 
-  
+- Go into ai-app-builder/packages/server/ directory
 
-- Create `.env` file and specify the `VITE_PORT` (refer to `.env.example`) in `ai-app-builder/packages/ui`
+
+```bash
+
+cd AgenticProtocol/ai-app-builder/packages/server/
+cp .env.example .env
+
+```
+
+
+ - Edit .env file
+ - Set LIGHTHOUSE_API_KEY to an API key of Lighthouse storage account
+ - Set PRIVATE_KEY to the private key of Citrea devnet account 
+
+
+- Go into ai-app-builder/packages/ui/ directory
+
+
+```bash
+
+cd AgenticProtocol/ai-app-builder/packages/ui/
+cp .env.example .env
+
+```
 
 - Run
 
   
 
 ```bash
-
+cd AgenticProtocol/ai-app-builder/packages/ui/
 pnpm dev
 
 ```

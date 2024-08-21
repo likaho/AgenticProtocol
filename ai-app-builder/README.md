@@ -3,6 +3,13 @@
 
 # AgenticProtocol - Build LLM Apps Easily
 
+### Prerequisites
+
+* Meta Mask extension [installed](https://support.metamask.io/getting-started/getting-started-with-metamask/) on your web browser
+a new EVM account for development purposes.
+* A Citrea devnet [account](https://docs.citrea.xyz/user-guide/how-to-use-bridge) for creating NFT
+* Some [Citrea devnet tokens](https://docs.citrea.xyz/user-guide/how-to-use-bridge) on the account you are using.
+* Create a Lighthouse [API Key](https://docs.lighthouse.storage/lighthouse-1/quick-start#create-an-api-key) for uploading JSON file to FileCoin storage
 
 ### Setup
 
@@ -54,13 +61,13 @@ pnpm build
 
 ```
 
-  
-
-5. Start the app:
-
-  
+5. Create .env files  
 
 - Create `.env` file and specify the `VITE_PORT` and other environment variables (refer to `.env.example`) in `packages/ui`
+
+```bash
+cp .env.example .env
+```
 
 - Create `.env` file and specify the `PORT` and other environment variables (refer to `.env.example`) in `packages/server`
 
@@ -68,28 +75,36 @@ pnpm build
 cp .env.example .env
 ```
 
+ - Edit .env file
+ - Set LIGHTHOUSE_API_KEY to an API key of Lighthouse storage account
+ - Set PRIVATE_KEY to the private key of Citrea devnet account 
+
+
+6. Start the app:
+
+
 - Run
 
 
 ```bash
 
-pnpm dev
+pnpm start
 
 ```
 
   
 
-Any code changes will reload the app automatically on [http://localhost:3032](http://localhost:3032)
+Any code changes will reload the app automatically on [http://localhost:3031](http://localhost:3031)
 
   
 
-6. For production build:
+6. For development build:
 
   
 
 ```bash
 
-pnpm start
+pnpm run dev
 
 ```
 
@@ -113,7 +128,10 @@ You can now access the app on [http://localhost:3032](http://localhost:3032)
     cp .env.example .env
     ```
 
-- Create a private key
+ - Edit .env file
+ - Set LIGHTHOUSE_API_KEY to an API key of Lighthouse storage account
+ - Set PRIVATE_KEY to the private key of Citrea devnet account 
+
 
 ### 2. Build a docker image:
 

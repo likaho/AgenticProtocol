@@ -20,6 +20,8 @@ services:
     build:
       context: ai-app-builder
       dockerfile: ./Dockerfile
+    environment:
+      - VECTOR_SEARCH_SERVICE_URL=http://llm-proxy-server:5000/api/v1
     ports:
       - 3031:3031
 
