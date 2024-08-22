@@ -45,6 +45,9 @@ The combination of FileCoin, NFTs, and zkML creates a powerful ecosystem for AI 
 
 The project leverages three key components: Filecoin, Citrea, and the Galadriel network.
 
+**Microservice Architecture**
+<img width="100%" src="https://github.com/likaho/AgenticProtocol/blob/main/images/microservice_architecture.gif?raw=true">
+
 1. **Filecoin (Lighthouse):**
    - Filecoin is a decentralized storage network designed to store important information globally.
    - In the context of our project, Filecoin serves as the storage infrastructure for agent-related data.
@@ -67,6 +70,10 @@ In summary, Citrea and Filecoin collaborate to empower agent creators, while the
 
 Our Decentralized Agentic Protocol No-Code Building Tool is an innovative platform that empowers creators and developers.
 
+<h3>Register a customized LLM flow and publish it onto Citrea Network and Lighthouse storage</h3>
+<a href="https://youtu.be/bKunFksvWnw"><img width="100%" src="https://github.com/likaho/AgenticProtocol/blob/main/images/agent_demo.gif?raw=true"></a>
+
+
 - **Minting NFTs on Citrea Network:**
   - Publish the chat flow definition and mint unique NFTs on the Citrea network.
   - By minting NFTs, creators establish ownership of their AI agents. These tokens serve as verifiable proof of authenticity.
@@ -78,11 +85,15 @@ Our Decentralized Agentic Protocol No-Code Building Tool is an innovative platfo
 - **Agent Discovery and Tool Use:**
   - Finally, a new chat flow acts like a tool for other agents after it is listed in the marketplace. It will be automatically discovered. LLMs can benefit from tool use to perform more complex tasks. Tools allow LLMs to trigger actions.
 
+<img width="100%" src="https://github.com/likaho/AgenticProtocol/blob/main/images/agent_discovery_service.gif?raw=true">
+
 This decentralized approach ensures that ownership remains provable and immutable.
 
 ### Agent Inference
 
 The user prompt is transmitted to our marketplace, where the appropriate tool or tools are selected to fulfill the request.
+
+<img width="100%" src="https://github.com/likaho/AgenticProtocol/blob/main/images/agent_discovery_flowchart.gif?raw=true">
 
 
 - **Using Galadriel Network for zkML Proofs:**
