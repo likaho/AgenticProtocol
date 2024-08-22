@@ -46,7 +46,7 @@ The combination of FileCoin, NFTs, and zkML creates a powerful ecosystem for AI 
 The project leverages three key components: Filecoin, Citrea, and the Galadriel network.
 
 **Microservice Architecture**
-<img width="100%" src="https://github.com/likaho/AgenticProtocol/blob/main/images/microservice_architecture.gif?raw=true">
+<img width="100%" src="https://github.com/likaho/AgenticProtocol/blob/main/images/microservice_architecture.gif">
 
 1. **Filecoin (Lighthouse):**
    - Filecoin is a decentralized storage network designed to store important information globally.
@@ -85,7 +85,7 @@ Our Decentralized Agentic Protocol No-Code Building Tool is an innovative platfo
 - **Agent Discovery and Tool Use:**
   - Finally, a new chat flow acts like a tool for other agents after it is listed in the marketplace. It will be automatically discovered. LLMs can benefit from tool use to perform more complex tasks. Tools allow LLMs to trigger actions.
 
-<img width="100%" src="https://github.com/likaho/AgenticProtocol/blob/main/images/agent_discovery_service.gif?raw=true">
+<img width="100%" src="https://github.com/likaho/AgenticProtocol/blob/main/images/agent_discovery_service.gif">
 
 This decentralized approach ensures that ownership remains provable and immutable.
 
@@ -93,7 +93,7 @@ This decentralized approach ensures that ownership remains provable and immutabl
 
 The user prompt is transmitted to our marketplace, where the appropriate tool or tools are selected to fulfill the request.
 
-<img width="100%" src="https://github.com/likaho/AgenticProtocol/blob/main/images/agent_discovery_flowchart.gif?raw=true">
+<img width="100%" src="https://github.com/likaho/AgenticProtocol/blob/main/images/agent_discovery_flowchart.gif">
 
 
 - **Using Galadriel Network for zkML Proofs:**
