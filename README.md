@@ -70,9 +70,16 @@ In summary, Citrea and Filecoin collaborate to empower agent creators, while the
 
 Our Decentralized Agentic Protocol No-Code Building Tool is an innovative platform that empowers creators and developers.
 
+### Agent Flow Creation Tutorial
+
+[![Agentic Protocol Tutorial - How to Build AI Agent Teams](https://github.com/likaho/AgenticProtocol/blob/main/images/research_team_agent.gif)](https://www.youtube.com/watch?v=284Z8k7yJRE "Agentic Protocol Tutorial - How to Build AI Agent Teams")
+
+
 <h3>Register a customized LLM flow and publish it onto Citrea Network and Lighthouse storage</h3>
 
-[![DEMO](https://github.com/likaho/AgenticProtocol/blob/main/images/agent_demo.gif)))](https://www.youtube.com/watch?v=bKunFksvWnw)
+### Quick Tutorial - Custom LLM Flow Registration
+
+[![Agentic Protocol Tutorial - Register a customized LLM flow](https://github.com/likaho/AgenticProtocol/blob/main/images/agent_demo.gif)](https://www.youtube.com/watch?v=bKunFksvWnw "Agentic Protocol Tutorial - Register a customized LLM flow")
 
 
 - **Minting NFTs on Citrea Network:**
