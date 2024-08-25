@@ -70,5 +70,5 @@ docker build -t llm-proxy-server .
 ### 3. Run a docker container:
 
 ```bash
-docker run --name llm-proxy-server -p 5000:5000 llm-proxy-server
+docker run --name llm-proxy-server -p 8080:5000 llm-proxy-server
 ```
