@@ -14,6 +14,7 @@ FROM node:20-alpine
 # RUN apk add --no-cache chromium
 
 #install PNPM globaly
+RUN apk --no-cache add curl
 RUN npm install -g pnpm@9.4.0
 
 ENV PUPPETEER_SKIP_DOWNLOAD=true

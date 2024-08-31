@@ -49,7 +49,7 @@ python3 app.py
 py app.py
 ```
 
-The server app should be running on http://localhost:5000
+The server app should be running on http://localhost:8080
 
 
 ## Run Docker 
@@ -70,5 +70,5 @@ docker build -t llm-proxy-server .
 ### 3. Run a docker container:
 
 ```bash
-docker run --name llm-proxy-server -p 8080:5000 llm-proxy-server
+docker run --name llm-proxy-server -p 8080:8080 llm-proxy-server
 ```

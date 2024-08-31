@@ -20,6 +20,10 @@ app.post('/*', async (req: Request<MessageRequest>, res: Response) => {
      res.send(response);
   });
 
+app.get('/api/v1/heartbeat', (req: Request, res: Response) => {
+    res.status(200).json({ status: 'healthy' });
+});
+
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });

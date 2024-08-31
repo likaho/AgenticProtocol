@@ -1,5 +1,6 @@
 # Use the node:20-alpine base image
 FROM node:20-alpine
+RUN apk --no-cache add curl
 ENV NODE_TLS_REJECT_UNAUTHORIZED=0
 WORKDIR /usr/src
 COPY . .

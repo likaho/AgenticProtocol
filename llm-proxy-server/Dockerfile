@@ -1,7 +1,8 @@
 # For more information, please refer to https://aka.ms/vscode-docker-python
 FROM python:3.10-slim
 # Install CA certificates
-RUN apt-get update && apt-get install -y ca-certificates
+RUN apt-get update && apt-get install -y ca-certificates && apt-get install -y curl && apt-get clean
+
 # Disable SSL verification
 # ENV REQUESTS_CA_BUNDLE=""
 USER root
@@ -11,9 +12,10 @@ COPY requirements.txt .
 RUN pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org --upgrade certifi
 RUN pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org --upgrade pyopenssl
 RUN pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org -r requirements.txt
+RUN python -c "from chromadb.utils import embedding_functions; embedding_functions.DefaultEmbeddingFunction()"
 COPY . .
 
-EXPOSE 5000
+EXPOSE 8080
 
 # Creates a non-root user with an explicit UID and adds permission to access the /app folder
 # For more info, please refer to https://aka.ms/vscode-docker-python-configure-containers

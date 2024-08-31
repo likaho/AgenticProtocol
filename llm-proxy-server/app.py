@@ -6,6 +6,9 @@ import json
 from dotenv import load_dotenv
 from flask_cors import CORS
 import chromadb
+from chromadb.utils import embedding_functions
+import certifi
+import logging
 
 load_dotenv()
 
@@ -78,34 +81,56 @@ def delete_agent(id: str):
 def delete_chatflow(id: str):
   return delete_agent_or_chatflow("chatflow", id)
 
-def chat_completion(user_query: str, chatId: str):
+def chat_completion(user_query: str, chat_id: str):
   # Forward a user query to a LLM  to Galadriel network
-  json_body = {"question":user_query, "chatId": chatId }
+  json_body = {"question":user_query, "chatId": chat_id }
   llm_url = os.getenv("GALADRIEL_URL")
-  response = requests.post(llm_url, json = json_body)
+  response = requests.post(llm_url, json = json_body, verify=certifi.where())  
   return response
 
 @app.route('/api/v1/prediction/123', methods=['POST'])
-def useService():
+def use_service():
   if not request.is_json:
      return jsonify({'error': 'Request body must be JSON'}), 400
   
   user_query = request.json['question']
-  chatId = request.json['chatId']
+  chat_id = request.json['chatId']
   function_details = get_function_details(user_query)
   function_call = create_function_call(user_query, function_details["documents"])
   if "no_op" in function_call or "default" in function_call:
-      print("no_op")
-      response = chat_completion(user_query, chatId)      
+      logging.info("no_op")
+      logging.info(f"user_query: {user_query}")
+      logging.info(f"chatId: {chat_id}")
+      response = chat_completion(user_query, chat_id)
+      logging.info(f"response: {response.json()}")
       return response.json()
   else :
       # check if the parameters are valid
-      print(f"function_call: {function_call}")
-      id = function_details["ids"][0][0]
-      marketplace_url = os.getenv("MARKETPLACE_URL") + "/" + id + "/"
-      payload = json.dumps({"question":user_query, "chatId": str(chatId) })
-      response = requests.post(marketplace_url, data=payload, headers={'Content-Type': 'application/json'})
+      logging.info(f"function_call: {function_call}")
+      flow_id = function_details["ids"][0][0]
+      marketplace_url = os.getenv("MARKETPLACE_URL") + "/" + flow_id + "/"
+      logging.info(f"marketplace_url: {marketplace_url}")
+      payload = json.dumps({"question":user_query, "chatId": str(chat_id)})
+      logging.info(f"payload: {payload}")
+      response = requests.post(marketplace_url, data=payload, verify=certifi.where(), headers={'Content-Type': 'application/json'})
       return response.json()
-     
+
+@app.route('/api/v1/heartbeat', methods=['GET'])
+def heartbeat():
+    return jsonify(status='healthy'), 200
+
+
 if __name__ == '__main__':
-  app.run(host='0.0.0.0', port=5000)
+  log_format = "%(asctime)s::%(levelname)s::%(lineno)d::%(message)s"
+  log_full_path = "app.log"
+
+  if os.path.exists(log_full_path) == True:
+      open(log_full_path, "w").close()
+
+  logging.basicConfig(filename=log_full_path,
+                      level='DEBUG', format=log_format)
+
+  logging.info("Start")
+  embedding_functions.DefaultEmbeddingFunction()
+
+  app.run(host='0.0.0.0', port=8080)
