@@ -1,3 +1,4 @@
+version: "3.8"
 services:
   llm-server:
     container_name: llm-server
@@ -72,3 +73,23 @@ services:
     ports:
       - 3000:3000
 
+
+  chroma:
+    container_name: chroma
+    image: ghcr.io/chroma-core/chroma:latest
+    volumes:
+      - index_data:/chroma/.chroma/index
+    ports:
+      - 8000:8000
+    networks:
+      - net
+
+volumes:
+  index_data:
+    driver: local
+  backups:
+    driver: local
+
+networks:
+  net:
+    driver: bridge

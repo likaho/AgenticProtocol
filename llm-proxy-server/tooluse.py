@@ -1,8 +1,10 @@
 import chromadb
+from chromadb.config import Settings
 from utils import query_raven
 from api_specification_main.services.WeatherForecastAPIs_service import get_v1forecast
 
-chroma_client = chromadb.PersistentClient(path="vectordb")
+chroma_client = chromadb.HttpClient(host="chroma", port = 8000, settings=Settings(allow_reset=True, anonymized_telemetry=False))
+# chroma_client = chromadb.PersistentClient(path="vectordb")
 
 des1 = f'''
 """

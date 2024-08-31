@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 from flask_cors import CORS
 import chromadb
 from chromadb.utils import embedding_functions
+from chromadb.config import Settings
 import certifi
 import logging
 
@@ -16,7 +17,8 @@ app = Flask(__name__)
 CORS(app)
 
 def delete_agent_or_chatflow(type: str, id: str):
-  chroma_client = chromadb.PersistentClient(path="vectordb")
+  chroma_client = chromadb.HttpClient(host="chroma", port = 8000, settings=Settings(allow_reset=True, anonymized_telemetry=False))
+  # chroma_client = chromadb.PersistentClient(path="vectordb")
   collection = chroma_client.get_or_create_collection(name="marketplace")
   results = collection.get(ids=[id])
   if len(results["ids"]) > 0:
@@ -35,9 +37,9 @@ def create_agent_or_chatflow(type: str):
     query_description = request.json['query_description'] #e.g. The name of the city.
     return_type = request.json['return_type'] #e.g. str
     return_description = request.json['return_description'] #e.g. The weather forecast.
-    id = request.json['id']
-
-    chroma_client = chromadb.PersistentClient(path="vectordb")
+    flow_id = request.json['id']
+    chroma_client = chromadb.HttpClient(host="chroma", port = 8000, settings=Settings(allow_reset=True, anonymized_telemetry=False))
+    # chroma_client = chromadb.PersistentClient(path="vectordb")
     function_name = f"def {name}(query):"
     function_doc = \
     f'''
@@ -58,12 +60,12 @@ def create_agent_or_chatflow(type: str):
 
     collection = chroma_client.get_or_create_collection(name="marketplace")
     collection.upsert(
-        ids=[id],
+        ids=[flow_id],
         documents=[function_doc],
         metadatas=[doc_metadata]
     )
 
-    return jsonify({'id': id,'Success': f'{type} has been created'}), 200
+    return jsonify({'id': flow_id,'Success': f'{type} has been created'}), 200
 
 @app.route('/api/v1/agent', methods=['POST'])
 def create_agent():

@@ -9,6 +9,7 @@ import re
 import os
 import importlib
 import chromadb
+from chromadb.config import Settings
 import shutil
 import subprocess
 from utils import query_raven
@@ -24,7 +25,8 @@ def remove_openapi_files(output_dir: str):
         shutil.rmtree(output_dir)
 
 def get_function_details(user_query: str):
-    chroma_client = chromadb.PersistentClient(path="vectordb")
+    chroma_client = chromadb.HttpClient(host="chroma", port = 8000, settings=Settings(allow_reset=True, anonymized_telemetry=False))
+    # chroma_client = chromadb.PersistentClient(path="vectordb")
     collection = chroma_client.get_or_create_collection(name="marketplace")
     num_of_results = os.getenv("NUM_OF_RESULTS")
     results = collection.query(
