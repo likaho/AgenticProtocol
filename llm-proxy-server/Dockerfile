@@ -15,7 +15,7 @@ RUN pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org -r
 RUN python -c "from chromadb.utils import embedding_functions; embedding_functions.DefaultEmbeddingFunction()"
 COPY . .
 
-EXPOSE 8080
+EXPOSE 5000
 
 # Creates a non-root user with an explicit UID and adds permission to access the /app folder
 # For more info, please refer to https://aka.ms/vscode-docker-python-configure-containers

@@ -9,10 +9,13 @@ import re
 import os
 import importlib
 import chromadb
-from chromadb.config import Settings
+from chromadb.config import DEFAULT_TENANT, DEFAULT_DATABASE, Settings
 import shutil
 import subprocess
 from utils import query_raven
+
+chromadb_url = os.getenv("CHROMADB_URL")
+chromadb_port = int(os.getenv("CHROMADB_PORT"))
 
 def generate_open_api_services(openapi_url: str, service_url: str, output_dir: str):
     download_openapi_spec(openapi_url, service_url, output_dir)
@@ -25,7 +28,7 @@ def remove_openapi_files(output_dir: str):
         shutil.rmtree(output_dir)
 
 def get_function_details(user_query: str):
-    chroma_client = chromadb.HttpClient(host="chroma", port = 8000, settings=Settings(allow_reset=True, anonymized_telemetry=False))
+    chroma_client = chromadb.HttpClient(host=chromadb_url, port=chromadb_port, ssl=False, headers=None, tenant=DEFAULT_TENANT, database=DEFAULT_DATABASE,settings=Settings(allow_reset=True, anonymized_telemetry=False))
     # chroma_client = chromadb.PersistentClient(path="vectordb")
     collection = chroma_client.get_or_create_collection(name="marketplace")
     num_of_results = os.getenv("NUM_OF_RESULTS")
