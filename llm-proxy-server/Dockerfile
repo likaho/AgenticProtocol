@@ -12,7 +12,6 @@ COPY requirements.txt .
 RUN pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org --upgrade certifi
 RUN pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org --upgrade pyopenssl
 RUN pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org -r requirements.txt
-RUN python -c "from chromadb.utils import embedding_functions; embedding_functions.DefaultEmbeddingFunction()"
 COPY . .
 
 EXPOSE 5000

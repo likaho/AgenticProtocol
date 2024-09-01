@@ -75,6 +75,8 @@ services:
     depends_on:
       llm-proxy-server:
         condition: service_healthy
+    entrypoint: ["/bin/sh", "-c"] 
+    command: ["curl --location 'http://llm-proxy-server:5000/api/v1/prediction/123' --header 'Content-Type: application/json' --data '{\"question\": \"Where is the capital city of Spain?\", \"chatId\": \"123\"}'; npm start"]
     ports:
       - 3000:3000
 

@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from openapiutils import  get_function_details, create_function_call, generate_open_api_services, remove_openapi_files, clean_url, generate_hash
 import requests
 import os
+import sys
 import json
 from dotenv import load_dotenv
 from flask_cors import CORS
@@ -126,13 +127,18 @@ def heartbeat():
 
 if __name__ == '__main__':
   log_format = "%(asctime)s::%(levelname)s::%(lineno)d::%(message)s"
-  log_full_path = "app.log"
+  # log_full_path = "./app.log"
 
-  if os.path.exists(log_full_path) == True:
-      open(log_full_path, "w").close()
+  # if os.path.exists(log_full_path) == True:
+  #     open(log_full_path, "w").close()
 
-  logging.basicConfig(filename=log_full_path,
-                      level='DEBUG', format=log_format)
+  # logging.basicConfig(filename=log_full_path,
+  #                     level='DEBUG', format=log_format)
+
+  logging.basicConfig(level=logging.INFO, handlers=[
+      logging.StreamHandler(sys.stdout),  # Log to stdout
+      logging.StreamHandler(sys.stderr)   # Log to stderr
+  ])
 
   logging.info("Start")
   embedding_functions.DefaultEmbeddingFunction()
