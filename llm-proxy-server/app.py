@@ -16,11 +16,11 @@ load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
-chromadb_url = os.getenv("CHROMADB_URL")
+chromadb_host = os.getenv("CHROMADB_HOST")
 chromadb_port = int(os.getenv("CHROMADB_PORT"))
 
 def delete_agent_or_chatflow(type: str, id: str):
-  chroma_client = chromadb.HttpClient(host=chromadb_url, port=chromadb_port, ssl=False, headers=None, tenant=DEFAULT_TENANT, database=DEFAULT_DATABASE,settings=Settings(allow_reset=True, anonymized_telemetry=False))
+  chroma_client = chromadb.HttpClient(host=chromadb_host, port=chromadb_port, ssl=False, headers=None, tenant=DEFAULT_TENANT, database=DEFAULT_DATABASE,settings=Settings(allow_reset=True, anonymized_telemetry=False))
   # chroma_client = chromadb.PersistentClient(path="vectordb")
   collection = chroma_client.get_or_create_collection(name="marketplace")
   results = collection.get(ids=[id])
@@ -41,7 +41,7 @@ def create_agent_or_chatflow(type: str):
     return_type = request.json['return_type'] #e.g. str
     return_description = request.json['return_description'] #e.g. The weather forecast.
     flow_id = request.json['id']
-    chroma_client = chromadb.HttpClient(host=chromadb_url, port=chromadb_port, ssl=False, headers=None, tenant=DEFAULT_TENANT, database=DEFAULT_DATABASE,settings=Settings(allow_reset=True, anonymized_telemetry=False))
+    chroma_client = chromadb.HttpClient(host=chromadb_host, port=chromadb_port, ssl=False, headers=None, tenant=DEFAULT_TENANT, database=DEFAULT_DATABASE,settings=Settings(allow_reset=True, anonymized_telemetry=False))
     # chroma_client = chromadb.PersistentClient(path="vectordb")
     function_name = f"def {name}(query):"
     function_doc = \

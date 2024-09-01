@@ -47,7 +47,7 @@ services:
     environment:
       - GALADRIEL_URL=http://llm-server:3001
       - MARKETPLACE_URL=http://ai-app-builder:3031/api/v1/prediction
-      - CHROMADB_URL=chroma
+      - CHROMADB_HOST=chroma
       - CHROMADB_PORT=8000
 
     healthcheck:
