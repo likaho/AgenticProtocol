@@ -13,12 +13,13 @@ from chromadb.config import DEFAULT_TENANT, DEFAULT_DATABASE, Settings
 import shutil
 import subprocess
 from utils import query_raven
-from langchain.llms import OpenAI
 from langchain.prompts import PromptTemplate
+from langchain_openai import ChatOpenAI
 
 chromadb_host = os.getenv("CHROMADB_HOST")
 chromadb_port = int(os.getenv("CHROMADB_PORT"))
 openai_key = os.getenv("OPENAI_KEY")
+os.environ["OPENAI_API_KEY"] = openai_key
 
 def verify_function_call(function_definition, user_query):
     """
@@ -33,7 +34,7 @@ def verify_function_call(function_definition, user_query):
     """
 
     # Initialize the OpenAI API
-    llm = OpenAI(api_key=openai_key)
+    llm = ChatOpenAI(model="gpt-4o")
 
     # Define the prompt template
     prompt_template = PromptTemplate(
@@ -47,13 +48,13 @@ def verify_function_call(function_definition, user_query):
     )
 
     # Generate the prompt
-    prompt = prompt_template.format(function_call=function_definition, user_query=user_query)
+    prompt = prompt_template.format(function_call=function_definition, user_query=user_query).replace("\n", "")
 
     # Get the response from the OpenAI API
     response = llm(prompt)
 
     # Check the response and return the boolean value
-    return response.strip().lower() == "yes"
+    return response.content.strip().lower() == "yes"
 
 def generate_open_api_services(openapi_url: str, service_url: str, output_dir: str):
     download_openapi_spec(openapi_url, service_url, output_dir)
@@ -77,6 +78,7 @@ def get_function_details(user_query: str):
     return results
 
 def create_function_call(user_query: str, documents: list) -> (str, str):
+    function_definition = ""
     prompt = f'''
     Function:
     no_op():
@@ -87,12 +89,12 @@ def create_function_call(user_query: str, documents: list) -> (str, str):
     
     for items in documents:
       for item in items:
-          prompt += str(item) + "\n"
+          function_definition += str(item) + "\n"
 
-    prompt = prompt + f'''User Query: {user_query}<human_end>'''
+    prompt = prompt + function_definition + f'''User Query: {user_query}<human_end>'''
     print(prompt)
     call = query_raven(prompt)
-    return (call, prompt)
+    return (call, function_definition)
 
 def create_function_names_docs_import_statements(output_dir: str)->(list,list, list):
     """

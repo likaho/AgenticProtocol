@@ -34,7 +34,7 @@ def create_agent_or_chatflow(type: str):
   if not request.is_json:
      return jsonify({'error': 'Request body must be JSON'}), 400
   else:
-    name = request.json['name'].strip()
+    name = request.json['name'].strip().replace(" ", "_")
     description = request.json['description']  #e.g. Fetches weather data from the Open-Meteo API for the given latitude and longitude.
     query_type = request.json['query_type'] #e.g. str
     query_description = request.json['query_description'] #e.g. The name of the city.
@@ -104,7 +104,7 @@ def use_service():
   function_call, function_definition = create_function_call(user_query, function_details["documents"])
   logger.info(f"function_definition: {function_definition}")
   #Check if function_call construction is valid based on the user query 
-  valid_function_call = verify_function_call(function_definition, user_query)
+  valid_function_call = False if "no_op" == function_call else verify_function_call(function_definition, user_query)
 
   if "no_op" in function_call or "default" in function_call or valid_function_call == False:
       logger.info("no_op")
