@@ -15,11 +15,38 @@ import subprocess
 from utils import query_raven
 from langchain.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
+from langchain.chains import LLMChain
+from flask import jsonify
 
 chromadb_host = os.getenv("CHROMADB_HOST")
 chromadb_port = int(os.getenv("CHROMADB_PORT"))
 openai_key = os.getenv("OPENAI_KEY")
 os.environ["OPENAI_API_KEY"] = openai_key
+
+
+def get_completion(request_json):
+    # Initialize the OpenAI LLM with your API key
+    """
+    Responds to a user query with a helpful answer using OpenAI.
+
+    Args:
+        request_json: A JSON object with keys "question", "chatId", and "sessionId".
+
+    Returns:
+        A JSON object with keys "text", "question", "chatId", "chatMessageId", and "sessionId".
+    """
+    llm = ChatOpenAI(model="gpt-4o")
+    # Define a prompt template
+    prompt_template = PromptTemplate(
+        input_variables=["user_input"],
+        template="You are a helpful assistant. Answer the following question: {user_input}"
+    )
+
+    # Create an LLMChain with the LLM and the prompt template
+    chain = LLMChain(llm=llm, prompt=prompt_template)
+    response = chain.run(user_input=request_json.get("question"))
+    return jsonify({ 'text': response, 'question': request_json.get("question"), 'chatId': request_json.get("chatId"), 'chatMessageId': 'a9a1701c-615a-462b-b1bc-86d765cb6ec7', 'sessionId': request_json.get("chatId") })
+
 
 def verify_function_call(function_definition, user_query):
     """

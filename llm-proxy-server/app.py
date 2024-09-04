@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from function_calling_utils import  get_function_details, create_function_call, generate_hash, verify_function_call
+from function_calling_utils import  get_function_details, create_function_call, generate_hash, verify_function_call, get_completion
 import requests
 import os
 import sys
@@ -90,8 +90,10 @@ def chat_completion(user_query: str, chat_id: str):
   # Forward a user query to a LLM  to Galadriel network
   json_body = {"question":user_query, "chatId": chat_id }
   llm_url = os.getenv("GALADRIEL_URL")
-  response = requests.post(llm_url, json = json_body, verify=certifi.where())  
-  return response
+  response = requests.post(llm_url, json = json_body, verify=certifi.where())
+  return response.json()
+  # response = get_completion(json_body)
+  # return response
 
 @app.route('/api/v1/prediction/123', methods=['POST'])
 def use_service():
@@ -104,15 +106,15 @@ def use_service():
   function_call, function_definition = create_function_call(user_query, function_details["documents"])
   logger.info(f"function_definition: {function_definition}")
   #Check if function_call construction is valid based on the user query 
-  valid_function_call = False if "no_op" == function_call else verify_function_call(function_definition, user_query)
+  valid_function_call = False if "no_op" in function_call else verify_function_call(function_definition, user_query)
 
   if "no_op" in function_call or "default" in function_call or valid_function_call == False:
       logger.info("no_op")
       logger.info(f"user_query: {user_query}")
       logger.info(f"chatId: {chat_id}")
       response = chat_completion(user_query, chat_id)
-      logger.info(f"response: {response.json()}")
-      return response.json()
+      logger.info(f"response: {response}")
+      return response
   else :
       # check if the parameters are valid
       logger.info(f"function_call: {function_call}")
