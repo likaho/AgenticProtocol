@@ -78,7 +78,7 @@ def verify_function_call(function_definition, user_query):
     prompt = prompt_template.format(function_call=function_definition, user_query=user_query).replace("\n", "")
 
     # Get the response from the OpenAI API
-    response = llm(prompt)
+    response = llm.invoke(prompt)
 
     # Check the response and return the boolean value
     return response.content.strip().lower() == "yes"

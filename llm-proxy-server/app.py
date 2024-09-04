@@ -17,6 +17,9 @@ app = Flask(__name__)
 CORS(app)
 chromadb_host = os.getenv("CHROMADB_HOST")
 chromadb_port = int(os.getenv("CHROMADB_PORT"))
+log_format = "%(asctime)s::%(levelname)s::%(lineno)d::%(message)s"
+logging.basicConfig(level=logging.INFO, stream=sys.stdout, format=log_format)
+logger = logging.getLogger("app")
 
 
 def delete_agent_or_chatflow(type: str, id: str):
@@ -137,9 +140,6 @@ if __name__ == '__main__':
   # if os.path.exists(log_full_path) == True:
   #     open(log_full_path, "w").close()
 
-  log_format = "%(asctime)s::%(levelname)s::%(lineno)d::%(message)s"
-  logging.basicConfig(level=logging.INFO, stream=sys.stdout, format=log_format)
-  logger = logging.getLogger("app")
   logger.info("Start")
 
   app.run(host='0.0.0.0', port=5000)
