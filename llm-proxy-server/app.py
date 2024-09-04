@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from openapiutils import  get_function_details, create_function_call, generate_open_api_services, remove_openapi_files, clean_url, generate_hash
+from function_calling_utils import  get_function_details, create_function_call, generate_hash, verify_function_call
 import requests
 import os
 import sys
@@ -8,7 +8,6 @@ from dotenv import load_dotenv
 from flask_cors import CORS
 import chromadb
 from chromadb.config import DEFAULT_TENANT, DEFAULT_DATABASE, Settings
-from chromadb.utils import embedding_functions
 import certifi
 import logging
 
@@ -18,6 +17,7 @@ app = Flask(__name__)
 CORS(app)
 chromadb_host = os.getenv("CHROMADB_HOST")
 chromadb_port = int(os.getenv("CHROMADB_PORT"))
+
 
 def delete_agent_or_chatflow(type: str, id: str):
   chroma_client = chromadb.HttpClient(host=chromadb_host, port=chromadb_port, ssl=False, headers=None, tenant=DEFAULT_TENANT, database=DEFAULT_DATABASE,settings=Settings(allow_reset=True, anonymized_telemetry=False))
@@ -101,22 +101,26 @@ def use_service():
   user_query = request.json['question']
   chat_id = request.json['chatId']
   function_details = get_function_details(user_query)
-  function_call = create_function_call(user_query, function_details["documents"])
-  if "no_op" in function_call or "default" in function_call:
-      logging.info("no_op")
-      logging.info(f"user_query: {user_query}")
-      logging.info(f"chatId: {chat_id}")
+  function_call, function_definition = create_function_call(user_query, function_details["documents"])
+  logger.info(f"function_definition: {function_definition}")
+  #Check if function_call construction is valid based on the user query 
+  valid_function_call = verify_function_call(function_definition, user_query)
+
+  if "no_op" in function_call or "default" in function_call or valid_function_call == False:
+      logger.info("no_op")
+      logger.info(f"user_query: {user_query}")
+      logger.info(f"chatId: {chat_id}")
       response = chat_completion(user_query, chat_id)
-      logging.info(f"response: {response.json()}")
+      logger.info(f"response: {response.json()}")
       return response.json()
   else :
       # check if the parameters are valid
-      logging.info(f"function_call: {function_call}")
+      logger.info(f"function_call: {function_call}")
       flow_id = function_details["ids"][0][0]
       marketplace_url = os.getenv("MARKETPLACE_URL") + "/" + flow_id + "/"
-      logging.info(f"marketplace_url: {marketplace_url}")
+      logger.info(f"marketplace_url: {marketplace_url}")
       payload = json.dumps({"question":user_query, "chatId": str(chat_id)})
-      logging.info(f"payload: {payload}")
+      logger.info(f"payload: {payload}")
       response = requests.post(marketplace_url, data=payload, verify=certifi.where(), headers={'Content-Type': 'application/json'})
       return response.json()
 
@@ -126,21 +130,14 @@ def heartbeat():
 
 
 if __name__ == '__main__':
-  log_format = "%(asctime)s::%(levelname)s::%(lineno)d::%(message)s"
   # log_full_path = "./app.log"
 
   # if os.path.exists(log_full_path) == True:
   #     open(log_full_path, "w").close()
 
-  # logging.basicConfig(filename=log_full_path,
-  #                     level='DEBUG', format=log_format)
-
-  logging.basicConfig(level=logging.INFO, handlers=[
-      logging.StreamHandler(sys.stdout),  # Log to stdout
-      logging.StreamHandler(sys.stderr)   # Log to stderr
-  ])
-
-  logging.info("Start")
-  embedding_functions.DefaultEmbeddingFunction()
+  log_format = "%(asctime)s::%(levelname)s::%(lineno)d::%(message)s"
+  logging.basicConfig(level=logging.INFO, stream=sys.stdout, format=log_format)
+  logger = logging.getLogger("app")
+  logger.info("Start")
 
   app.run(host='0.0.0.0', port=5000)

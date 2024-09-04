@@ -32,7 +32,7 @@ export const handleRequest = async (req: MessageRequest): Promise<MessageRespons
       }
     });
   }
-  const response: MessageResponse = { text: returnedContent, question: req.question, chatId: req.chatId, chatMessageId: "a9a1701c-615a-462b-b1bc-86d765cb6ec7", sessionId: req.chatId }
+  const response: MessageResponse = { text: returnedContent + '@', question: req.question, chatId: req.chatId, chatMessageId: "a9a1701c-615a-462b-b1bc-86d765cb6ec7", sessionId: req.chatId }
   return response;  
   }
 

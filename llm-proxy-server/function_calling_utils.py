@@ -13,9 +13,47 @@ from chromadb.config import DEFAULT_TENANT, DEFAULT_DATABASE, Settings
 import shutil
 import subprocess
 from utils import query_raven
+from langchain.llms import OpenAI
+from langchain.prompts import PromptTemplate
 
 chromadb_host = os.getenv("CHROMADB_HOST")
 chromadb_port = int(os.getenv("CHROMADB_PORT"))
+openai_key = os.getenv("OPENAI_KEY")
+
+def verify_function_call(function_definition, user_query):
+    """
+    Verifies if the function call is correct for the user query.
+
+    Args:
+    function_call (str): The function call as a string
+    user_query (str): The user's query
+
+    Returns:
+    bool: True if the function call is correct for the user query, False otherwise
+    """
+
+    # Initialize the OpenAI API
+    llm = OpenAI(api_key=openai_key)
+
+    # Define the prompt template
+    prompt_template = PromptTemplate(
+        input_variables=["function_call", "user_query"],
+        template="""
+        Given the following function call and user query, return "Yes" if the function call is correct for the user query, and "No" if it is incorrect.
+        
+        Function Call: {function_call}
+        User Query: {user_query}
+        """
+    )
+
+    # Generate the prompt
+    prompt = prompt_template.format(function_call=function_definition, user_query=user_query)
+
+    # Get the response from the OpenAI API
+    response = llm(prompt)
+
+    # Check the response and return the boolean value
+    return response.strip().lower() == "yes"
 
 def generate_open_api_services(openapi_url: str, service_url: str, output_dir: str):
     download_openapi_spec(openapi_url, service_url, output_dir)
@@ -38,7 +76,7 @@ def get_function_details(user_query: str):
                 include=["documents", "metadatas"])
     return results
 
-def create_function_call(user_query: str, documents: list) -> str:
+def create_function_call(user_query: str, documents: list) -> (str, str):
     prompt = f'''
     Function:
     no_op():
@@ -54,7 +92,7 @@ def create_function_call(user_query: str, documents: list) -> str:
     prompt = prompt + f'''User Query: {user_query}<human_end>'''
     print(prompt)
     call = query_raven(prompt)
-    return call
+    return (call, prompt)
 
 def create_function_names_docs_import_statements(output_dir: str)->(list,list, list):
     """

@@ -174,6 +174,11 @@ cp .env.example .env
 
 ```
 
+
+ - Edit .env file
+ - Set OPENAI_KEY to an API key of OpenAI account
+
+
 - Go into llm-server directory
 
 ```bash

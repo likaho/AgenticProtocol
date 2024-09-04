@@ -6,9 +6,11 @@
 * Install python tools on your device
   * [Python](https://www.python.org/downloads/)
   * [Pip](https://pip.pypa.io/en/stable/installation/)
-* Learn how to use `python` and `pip` commands
-  * Docs: [Python](https://docs.python.org/3/)
-  * Docs: [Pip](https://pip.pypa.io/en/stable/)
+* Install python tools on your device
+  * [Python](https://www.python.org/downloads/)
+  * [Pip](https://pip.pypa.io/en/stable/installation/)  
+* Troubleshoot how to install `sqlite` as part of `ChromaDB` requirements
+  * Docs: [SQLite](https://docs.trychroma.com/troubleshooting#sqlite)
 * Learn how to use `venv` to create and manage virtual environments
   * Docs: [Python venv](https://docs.python.org/3/library/venv.html)
 
