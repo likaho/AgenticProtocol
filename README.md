@@ -208,6 +208,8 @@ docker-compose up -d
   
 
 You can now access the AI builder app on [http://localhost:3031](http://localhost:3031)
+- Username: user
+- Password: 1234
 
 
 And chat-ui on [http://localhost:3000](http://localhost:3000)
